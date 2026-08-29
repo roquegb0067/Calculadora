@@ -1,0 +1,109 @@
+body{
+  background-color: black;
+}
+h1{
+  color: #00FFF8;
+}
+#insertText{
+  height: 250px;
+  width: 100%;
+  border-radius: 10px;
+  background-color: black;
+  border-color: #03928E;
+  outline-color: #FF00E1;
+  color: red;
+}
+.bacDiv{
+  height: 253px;
+  width: 101%;
+  /* Remova 'position: center;' - não é uma propriedade CSS válida. */
+  /* O alinhamento será feito pelo flex do .ft ou pelo posicionamento do input */
+  z-index: -1;
+
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px 2px #00FFC3;
+  background: linear-gradient(45deg, #00FFC3, #FF00D5, #FF0000, white, gold, #0046FF);
+  background-size: 400%;
+  animation: glowingBackground 20s linear infinite;
+
+  /* Garante que o ícone preencha o espaço se o .ft tiver outros propósitos de flex */
+  display: block;
+}
+
+@keyframes glowingBackground {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+/*#inputTextInsert{
+  background-color: black;
+  border-color: #03928E;
+  outline-color: #FF00E1;
+}*/
+input{
+  width: 90%;
+  height: 15px;
+  margin-top: 5px;
+  background-color: #42445A;
+  outline-color: blue;
+  margin-left: 20px;
+}
+h2{
+  color: red;
+}
+#console{
+  margin-top: 20px;
+  color: red;
+}
+.table{
+  background-color: #42445A5E;
+  margin-left: 300px;
+  margin-top: 15px;
+  height: 50px;
+  width: 100px;
+  /* Remova 'position: center;' - não é uma propriedade CSS válida. */
+  /* O alinhamento será feito pelo flex do .ft ou pelo posicionamento do input */
+  z-index: -1;
+
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px 2px #03FFC494;
+  background: linear-gradient(45deg, #00FFC3C4, #9200FFC2, #FF00ECC2, #FFF500B3, #FF0000B3, #0046FF);
+  background-size: 400%;
+  animation: glowingBackground 20s linear infinite;
+  /* Garante que o ícone preencha o espaço se o .ft tiver outros propósitos de flex */
+  display: block;
+}
+.play{
+  background-color: #00000000;
+  border: none;
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  margin-top: 10px;
+  margin-left: 200px;
+}
+.top{
+  display: flex;
+  
+}
+.comecar{
+  width: 90%;
+  height: 90%;
+  margin-top: 13px;
+  margin-left: 20px;
+  border-radius: 50px;
+  font-size: 50px;
+  box-shadow: 2px 2px 2px 2px #00FFC3;
+  background: linear-gradient(45deg, #00FFC3, #FF00D5, #FF0000, white, gold, #0046FF);
+  background-size: 400%;
+  animation: glowingBackground 20s linear infinite;
+}
+#insertText {
+    overflow-y: auto; /* Barra de rolagem se passar de 300px */
+}
+
+input {
+    background-color: #333344;
+    border-bottom: 1px solid #555;
+    outline: none;
+}

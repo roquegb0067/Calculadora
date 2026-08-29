@@ -1,0 +1,45 @@
+body{
+  background-color: black/* #AB0064*/
+}
+h1{
+  text-align: center;
+  color: #FF009B;
+}
+input{
+  background-color: #00F8FF;
+  margin-top: 5px;
+  width: 70%;
+  height: 25px;
+}
+p{
+  color: #00FFAF;
+}
+
+button{
+  margin-top: 5px;
+  border-radius: 10px;
+  width: 100px;
+  height: 100px;
+  color: white;
+  background-color: saddlebrown;
+  box-shadow: linear-gradient(7deg, red, green) gold 1px 3px 4px 5px;
+  
+}
+h2{
+  color: #00FFAF;
+}
+h3{
+  color: #00FFAF;
+  margin-right: 20px;
+}
+/*.divw{
+  position: relative; /* Define a área pai como um ponto de referência */
+
+
+/*.elemento-sobreposto {
+  position: absolute; /* Posiciona o elemento em relação ao pai */
+ /* top: 50%; /* Posiciona verticalmente no meio da imagem */
+/*  left: 50%; /* Posiciona horizontalmente no meio da imagem */
+/*  transform: translate(-50%, -50%); /* Centraliza o elemento */
+/*  z-index: 1; /* Garante que o elemento fique acima da imagem 
+}*/
