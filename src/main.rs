@@ -30,7 +30,7 @@ async fn main() {
         // Rota da API que recebe o JSON do front-end
         .route("/api/pesquisa", post(tratar_pesquisa))
         // Serve a raiz "." (onde estão as pastas menu, bhaskara, etc.)
-        .nest_service("/", ServeDir::new("."));
+        .nest_service("/", ServeDir::new(".menu/index.html"));
 
     println!("Servidor rodando em http://127.0.0.1:3000");
 
