@@ -1,45 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
   <title>Menu</title>
 </head>
- 
+
 <body>
   
   <div class="container">
-    <h1>AppWebRunNavigator</h1>
-    <div>
-    <a href="/WallPaper/wallPaper.html"><button type="submit">Papeis de parede</button></a>
-  <br /><br /><br />
-    <a href="/bhaskara/bhaskara.html"><button>Formula de Bhaskara</button></a>
-    <br /><br /><br />
-    </div>
-    <div>
-    <a href="/calcularPorcentagem /porcentagem.html"><button>Calcular porcentagem</button></a>
-    <br /><br /><br />
-      <a href="/velocidade/metrosps.html"><button>Calcular velocidade</button></a>
-      <br /><br /><br />
-      </div>
-      <div>
-      <a href="/raizes/raizes.html"><button type="submit">Calcular raizes</button></a>
-      <br /><br /><br />
-      <a href="/tabuada/tabuada.html"><button type="ssubmit">Tabuada</button></a>
-      <br /><br /><br />
-      </div>
-          <div>
-      <a href="/raizes/raizes.html"><button type="submit">Calcular raizes</button></a>
-      <br /><br /><br />
-      <a href="/portugol/index.html"><button type="ssubmit">Portugol</button></a>
-      </div>
-      <script src="index.js"></script>
-      <div id="dv">
-        
-      </div>
+    <h1 class="h1">DEV•AXON</h1>
+    
+    <a href="/WallPaper/wallPaper.html"><button type="button" class="btn-menu">Papeis de parede</button></a>
+    <a href="/bhaskara/bhaskara.html"><button type="button" class="btn-menu">Formula de Bhaskara</button></a>
+    <a href="/calcularPorcentagem /porcentagem.html"><button type="button" class="btn-menu">Calcular porcentagem</button></a>
+    <a href="/velocidade/metrosps.html"><button type="button" class="btn-menu">Calcular velocidade</button></a>
+    <a href="/raizes/raizes.html"><button type="button" class="btn-menu">Calcular raizes</button></a>
+    <a href="/tabuada/tabuada.html"><button type="button" class="btn-menu">Tabuada</button></a>
+    <a href="/portugol/index.html"><button type="button" class="btn-menu">Portugol</button></a>
   </div>
+  <div class="menuRodape">
+    <button type="submit">+</button>
+  <button type="submit">💡</button>
+  <button type="submit">YT</button>
+  <button type="submit">📁</button>
+  <button type="submit">×</button>
+  </div>
+  
+  <!-- RODAPÉ PRINCIPAL (Três itens independentes) -->
+  <div class="rodape">
+    <!-- 1. Botão Citroën (Subir) -->
+    <button type="button" class="btn-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 11L12 5L6 11"></path>
+        <path d="M18 18L12 12L6 18"></path>
+      </svg>
+    </button>
+    <!-- 2. Container com Glow exclusivo para o Input -->
+    <div class="input-glow">
+      <input type="text" id="search" placeholder="Faça uma pergunta a IA">
+    </div>
+    
+    <!-- 3. Botão Aviãozinho -->
+    <button onclick="BuscaNaIA()" type="button" class="btn-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 2L11 13"></path>
+        <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+      </svg>
+
+    </button>
+  </div>
+  <script src="index.js" type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>
