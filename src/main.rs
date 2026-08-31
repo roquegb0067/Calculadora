@@ -1,32 +1,25 @@
 use axum::{routing::post, Json, Router};
 use serde::{Deserialize, Serialize};
 use std::env;
+use tower_http::services::ServeDir;
 
-#[tokio::main]
-async fn main() {
-    // Carrega o arquivo .env para o ambiente de execução
-    dotenvy::dotenv().ok();
+// ============================================================================
+// 1. ESTRUTURAS (STRUCTS) - Ficam fora de qualquer função
+// ============================================================================
 
-    // Pega a chave da variável de ambiente
-    let api_key = env::var("GEMINI_API_KEY")
-        .expect("A variável GEMINI_API_KEY não foi configurada no arquivo .env");
-
-    println!("Chave carregada com sucesso!");
-
-    // Seu código do servidor Axum continua aqui...
-}
-
+// O que o JavaScript envia para o Rust
 #[derive(Deserialize)]
 struct PesquisaRequest {
     pergunta: String,
 }
 
+// O que o Rust devolve para o JavaScript
 #[derive(Serialize)]
 struct PesquisaResponse {
     resposta: String,
 }
 
-// Estruturas auxiliares para a API do Gemini
+// Estruturas de requisição para a API do Gemini
 #[derive(Serialize)]
 struct GeminiContent {
     parts: Vec<GeminiPart>,
@@ -42,6 +35,7 @@ struct GeminiRequestBody {
     contents: Vec<GeminiContent>,
 }
 
+// Estruturas de resposta da API do Gemini
 #[derive(Deserialize)]
 struct GeminiCandidate {
     content: GeminiContentResponse,
@@ -62,9 +56,16 @@ struct GeminiResponseBody {
     candidates: Option<Vec<GeminiCandidate>>,
 }
 
+// ============================================================================
+// 2. HANDLERS (FUNÇÕES DAS ROTAS) - Também ficam fora da main
+// ============================================================================
+
 async fn tratar_pesquisa(Json(payload): Json<PesquisaRequest>) -> Json<PesquisaResponse> {
+    // Busca a chave configurada no arquivo .env
+    let api_key = env::var("GEMINI_API_KEY").unwrap_or_default();
+    
     let url = format!(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key={}",
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={}",
         api_key
     );
 
@@ -89,7 +90,7 @@ async fn tratar_pesquisa(Json(payload): Json<PesquisaRequest>) -> Json<PesquisaR
                     .map(|p| p.text)
                     .unwrap_or_else(|| "Sem resposta da IA.".to_string())
             } else {
-                "Erro ao ler JSON da API.".to_string()
+                "Erro ao ler resposta da API.".to_string()
             }
         }
         Err(_) => "Erro ao conectar com a API do Gemini.".to_string(),
@@ -98,4 +99,28 @@ async fn tratar_pesquisa(Json(payload): Json<PesquisaRequest>) -> Json<PesquisaR
     Json(PesquisaResponse {
         resposta: resposta_texto,
     })
+}
+
+// ============================================================================
+// 3. FUNÇÃO MAIN - Apenas inicializa o servidor
+// ============================================================================
+
+#[tokio::main]
+async fn main() {
+    // Carrega as variáveis do arquivo .env
+    dotenvy::dotenv().ok();
+
+    // Monta a aplicação com as rotas e arquivos estáticos
+    let app = Router::new()
+        .route("/api/pesquisa", post(tratar_pesquisa))
+        .nest_service("/", ServeDir::new("."));
+
+    println!("Servidor rodando em http://127.0.0.1:3000");
+
+    // Inicia o servidor escutando na porta 3000
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:3000")
+        .await
+        .unwrap();
+
+    axum::serve(listener, app).await.unwrap();
 }
