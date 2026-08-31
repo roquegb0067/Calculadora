@@ -38,11 +38,11 @@ async function enviarParaRust(dados) {
     console.error('Falha ao enviar JSON:', erro);
   }
 }
-const container = document.getElementById('container');
+const chatHeader = document.getElementById('container');
 
 function cardsResposta(resultado) {
-  if (container) {
-    container.classList.add('iniciado');
+  if (chatHeader) {
+    chatHeader.classList.add('iniciado');
   }
   const chatHistory = document.getElementById('chat-history');
   // Cria o HTML da mensagem enviada e da recebida
@@ -68,7 +68,7 @@ function menuRodape() {
 
             <button type="button">⚒</button>
             <button type="button">YT</button>
-            <button type="button" ">💾</button>
+            <button type="button">💾</button>
             <button type="button" onclick="fecharMenu()">×</button>
         </div>
     `;

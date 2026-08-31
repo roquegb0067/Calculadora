@@ -68,7 +68,7 @@ function menuRodape() {
 
             <button type="button">⚒</button>
             <button type="button">YT</button>
-            <button type="button" ">💾</button>
+            <button type="button">💾</button>
             <button type="button" onclick="fecharMenu()">×</button>
         </div>
     `;
