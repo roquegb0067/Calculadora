@@ -1,9 +1,20 @@
-use axum::{
-    routing::post,
-    Json, Router,
-};
+use axum::{routing::post, Json, Router};
 use serde::{Deserialize, Serialize};
-use tower_http::services::ServeDir;
+use std::env;
+
+#[tokio::main]
+async fn main() {
+    // Carrega o arquivo .env para o ambiente de execução
+    dotenvy::dotenv().ok();
+
+    // Pega a chave da variável de ambiente
+    let api_key = env::var("GEMINI_API_KEY")
+        .expect("A variável GEMINI_API_KEY não foi configurada no arquivo .env");
+
+    println!("Chave carregada com sucesso!");
+
+    // Seu código do servidor Axum continua aqui...
+}
 
 #[derive(Deserialize)]
 struct PesquisaRequest {
@@ -15,25 +26,76 @@ struct PesquisaResponse {
     resposta: String,
 }
 
-// Sua rota de API para a IA
-async fn tratar_pesquisa(Json(payload): Json<PesquisaRequest>) -> Json<PesquisaResponse> {
-    println!("Pergunta recebida: {}", payload.pergunta);
-
-    Json(PesquisaResponse {
-        resposta: format!("Resposta para: {}", payload.pergunta),
-    })
+// Estruturas auxiliares para a API do Gemini
+#[derive(Serialize)]
+struct GeminiContent {
+    parts: Vec<GeminiPart>,
 }
 
-#[tokio::main]
-async fn main() {
-    let app = Router::new()
-        // Rota da API que recebe o JSON do front-end
-        .route("/api/pesquisa", post(tratar_pesquisa))
-        // Serve a raiz "." (onde estão as pastas menu, bhaskara, etc.)
-        .nest_service("/", ServeDir::new("."));
+#[derive(Serialize)]
+struct GeminiPart {
+    text: String,
+}
 
-    println!("Servidor rodando em http://127.0.0.1:3000");
+#[derive(Serialize)]
+struct GeminiRequestBody {
+    contents: Vec<GeminiContent>,
+}
 
-    let listener = tokio::net::TcpListener::bind("127.0.0.1:3000").await.unwrap();
-    axum::serve(listener, app).await.unwrap();
+#[derive(Deserialize)]
+struct GeminiCandidate {
+    content: GeminiContentResponse,
+}
+
+#[derive(Deserialize)]
+struct GeminiContentResponse {
+    parts: Vec<GeminiPartResponse>,
+}
+
+#[derive(Deserialize)]
+struct GeminiPartResponse {
+    text: String,
+}
+
+#[derive(Deserialize)]
+struct GeminiResponseBody {
+    candidates: Option<Vec<GeminiCandidate>>,
+}
+
+async fn tratar_pesquisa(Json(payload): Json<PesquisaRequest>) -> Json<PesquisaResponse> {
+    let url = format!(
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key={}",
+        api_key
+    );
+
+    let body = GeminiRequestBody {
+        contents: vec![GeminiContent {
+            parts: vec![GeminiPart {
+                text: payload.pergunta,
+            }],
+        }],
+    };
+
+    let client = reqwest::Client::new();
+    let res = client.post(&url).json(&body).send().await;
+
+    let resposta_texto = match res {
+        Ok(response) => {
+            if let Ok(gemini_res) = response.json::<GeminiResponseBody>().await {
+                gemini_res
+                    .candidates
+                    .and_then(|c| c.into_iter().next())
+                    .and_then(|c| c.content.parts.into_iter().next())
+                    .map(|p| p.text)
+                    .unwrap_or_else(|| "Sem resposta da IA.".to_string())
+            } else {
+                "Erro ao ler JSON da API.".to_string()
+            }
+        }
+        Err(_) => "Erro ao conectar com a API do Gemini.".to_string(),
+    };
+
+    Json(PesquisaResponse {
+        resposta: resposta_texto,
+    })
 }

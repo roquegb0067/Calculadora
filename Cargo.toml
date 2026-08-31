@@ -4,6 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+reqwest = { version = "0.11", features = ["json"] }
+
 # Framework web assíncrono
 axum = "0.7"
 
@@ -16,3 +18,4 @@ serde_json = "1.0"
 
 # Para servir sua pasta de arquivos estáticos (HTML/CSS/JS)
 tower-http = { version = "0.5", features = ["fs"] }
+dotenvy = "0.15"
