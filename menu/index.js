@@ -45,19 +45,22 @@ function cardsResposta(resultado) {
     chatHeader.classList.add('iniciado');
   }
   const chatHistory = document.getElementById('chat-history');
-  // Cria o HTML da mensagem enviada e da recebida
-  const htmlFormatado = marked.parse(resultado);
+  
+  // Extrai a propriedade de texto retornada pelo Rust (ex: resultado.resposta ou resultado.mensagem)
+  const textoResposta = typeof resultado === 'string' ? resultado : (resultado.resposta || resultado.mensagem || JSON.stringify(resultado));
+
+  // Formata o Markdown
+  const htmlFormatado = marked.parse(textoResposta);
+  
   const novasMensagens = `
         <div class="mensagemEnviada"><p>${textoDigitadoGlobal}</p></div>
         <div class="mensagemRecebida">${htmlFormatado}</div>
     `;
   
-  // Anexa as novas mensagens ao final do histórico mantendo as anteriores
   chatHistory.insertAdjacentHTML('beforeend', novasMensagens);
-  
-  // Rola a tela/histórico automaticamente para a mensagem mais recente
   chatHistory.scrollTop = chatHistory.scrollHeight;
 }
+
 
 let visorRodape = document.getElementById('visorRodape');
 
