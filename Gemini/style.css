@@ -12,86 +12,73 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-bottom: 90px; /* Garante que os botões do menu não fiquem escondidos atrás do rodapé */
+    padding-bottom: 90px;
+    /* Garante que os botões do menu não fiquem escondidos atrás do rodapé */
+    justify-content: center;
+    /* Centraliza no eixo vertical (Y) */
+    
 }
 
-/* CONTAINER DOS LINKS/MENU */
-#container {
+p {
+    margin-left: 10px;
+    color: #c0c0c0;
+    font-weight: 400;
+    font-size: 20px;
+    max-width: 330px;
+    box-sizing: border-box;
+    /* Garante que padding não estoure a div */
+    word-wrap: break-word;
+    /* Força a quebra de palavras muito longas */
+    overflow-wrap: break-word;
+}
+
+#visor {
+    top: 0px;
+}
+
+h2 {
+    font-size: 15px;
+    
+}
+
+/* Importa as fontes diretamente do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+/* Atualize o seu H1 existente para usar a fonte escolhida */
+#chat-header.iniciado {
     display: flex;
-    flex-direction: column;
+    position: fixed;
     align-items: center;
-    gap: 15px;
-    padding: 20px;
-    width: 100%;
-    max-width: 500px;
+    top: 0;
+    left: 0;
+    background-color: black;
+    box-shadow: 5px 5px 40px 30px #000000;
+    border-radius: 10px;
+    padding: 0;
 }
-
-#container a {
-    width: 100%;
-    text-decoration: none;
-    display: block;
+#chat-header.iniciado h2{
+    font-size: 13px;
+    padding-top: 17px;
+    padding-left: 5px;
+    font-weight: 600;
 }
-
-/* TÍTULO COM EFEITO GLOW */
-h1 {
+#chat-history{
+    margin-top: 100px;
+}
+h1, h2 {
+    font-family: "Chakra Petch", sans-serif;
+    font-weight: 300;
     background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
     background-size: 400%;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     animation: glowing 20s linear infinite;
-    font-family: sans-serif;
+    font-style: normal;
     text-align: center;
     margin: 15px 0;
 }
 
-/* BOTÕES DO MENU PRINCIPAL */
-.btn-menu {
-    width: 100%;
-    height: 45px;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    outline: none;
-    background: #111111;
-    cursor: pointer;
-    position: relative;
-    z-index: 0;
-    border-radius: 10px;
-}
-
-.btn-menu:before {
-    content: '';
-    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    background-size: 400%;
-    z-index: -1;
-    filter: blur(5px);
-    width: calc(100% + 4px);
-    height: calc(100% + 4px);
-    animation: glowing 20s linear infinite;
-    opacity: 1;
-    border-radius: 10px;
-}
-
-.btn-menu:after {
-    z-index: -1;
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: #111;
-    left: 0;
-    top: 0;
-    border-radius: 10px;
-}
-
-/* -----------------------------------------------------------
-   RODAPÉ FLUTUANTE (Segura os 3 elementos lado a lado)
------------------------------------------------------------ */
 .rodape {
     position: fixed;
     bottom: 25px;
@@ -101,13 +88,15 @@ h1 {
     max-width: 500px;
     display: flex;
     align-items: center;
-    gap: 12px; /* Espaço entre o botão esquerdo, input e botão direito */
+    gap: 12px;
+    /* Espaço entre o botão esquerdo, input e botão direito */
     z-index: 100;
 }
 
 /* 1. INPUT COM GLOW PRÓPRIO */
 .input-glow {
-    flex: 1; /* Faz o input expandir e ocupar todo o meio */
+    flex: 1;
+    /* Faz o input expandir e ocupar todo o meio */
     height: 50px;
     position: relative;
     z-index: 0;
@@ -163,12 +152,15 @@ h1 {
     content: '';
     background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
     position: absolute;
-    top: -1.5px;             /* Diminuído de -2px para -1.5px para afinar */
+    top: -1.5px;
+    /* Diminuído de -2px para -1.5px para afinar */
     left: -1.5px;
     background-size: 400%;
     z-index: -1;
-    filter: blur(2.5px);     /* Diminuído de 4px para 2.5px para conter a manchas */
-    width: calc(100% + 3px); /* Reduzido de +4px para +3px */
+    filter: blur(2.5px);
+    /* Diminuído de 4px para 2.5px para conter a manchas */
+    width: calc(100% + 3px);
+    /* Reduzido de +4px para +3px */
     height: calc(100% + 3px);
     animation: glowing 20s linear infinite;
     border-radius: 50%;
@@ -195,10 +187,19 @@ h1 {
 
 /* ANIMAÇÃO GLOW REUTILIZÁVEL */
 @keyframes glowing {
-    0% { background-position: 0 0; }
-    50% { background-position: 400% 0; }
-    100% { background-position: 0 0; }
+    0% {
+        background-position: 0 0;
+    }
+    
+    50% {
+        background-position: 400% 0;
+    }
+    
+    100% {
+        background-position: 0 0;
+    }
 }
+
 .menuRodape {
     background: #242424;
     box-shadow: 1px 1px 5px 2px #c0c0c0;
@@ -221,45 +222,72 @@ h1 {
     background: #000000;
     font-size: 20px;
 }
+
 #visorRodape {
-  width: 100%;             /* Garante que o pai ocupe toda a largura disponível */
-  display: flex;           /* Ativa o modo Flexbox */
-  justify-content: center; /* Centraliza o conteúdo (filho) horizontalmente */
-  align-items: center;     /* Alinha o conteúdo verticalmente, se necessário */
+    width: 100%;
+    /* Garante que o pai ocupe toda a largura disponível */
+    display: flex;
+    /* Ativa o modo Flexbox */
+    justify-content: center;
+    /* Centraliza o conteúdo (filho) horizontalmente */
+    align-items: center;
+    /* Alinha o conteúdo verticalmente, se necessário */
 }
+
 /* No seu CSS */
 .menuRodape {
     width: 0%;
-    transition: width 0.5s ease-in-out; /* Transição suave de 0.5s */
+    transition: width 0.5s ease-in-out;
+    /* Transição suave de 0.5s */
 }
+
 @keyframes surgir {
     from {
         opacity: 0;
         transform: scale(0.8);
     }
+    
     to {
         opacity: 1;
         transform: scale(1);
     }
 }
 
-.menuRodape button{
-    opacity: 0; /* Começa invisível */
-    animation: surgir 0.3s forwards; /* Aplica a animação e mantém o estado final */
+.menuRodape button {
+    opacity: 0;
+    /* Começa invisível */
+    animation: surgir 0.3s forwards;
+    /* Aplica a animação e mantém o estado final */
 }
 
 /* Atraso do surgimento de cada botão */
-.menuRodape button:nth-child(1) { animation-delay: 0.1s; }
-.menuRodape button:nth-child(2) { animation-delay: 0.2s; }
-.menuRodape button:nth-child(3) { animation-delay: 0.3s; }
-.menuRodape button:nth-child(4) { animation-delay: 0.4s; }
-.menuRodape button:nth-child(5) { animation-delay: 0.5s; }
+.menuRodape button:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.menuRodape button:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.menuRodape button:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.menuRodape button:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.menuRodape button:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
 /* Animação inversa para os botões desaparecerem */
 @keyframes sumir {
     from {
         opacity: 1;
         transform: scale(1);
     }
+    
     to {
         opacity: 0;
         transform: scale(0.8);
@@ -268,7 +296,8 @@ h1 {
 
 /* Quando o menu estiver fechando */
 .menuRodape.recolher {
-    width: 0% !important; /* Encolhe a barra até 0% */
+    width: 0% !important;
+    /* Encolhe a barra até 0% */
 }
 
 /* Aplica a animação de sumir nos botões quando o menu estiver recolhendo */
@@ -278,11 +307,26 @@ h1 {
 
 /* Atrasos invertidos para os botões sumirem em ordem do último para o primeiro */
 /* Atrasos invertidos para os botões sumirem em ordem do último para o primeiro */
-.menuRodape.recolher button:nth-child(5) { animation-delay: 0.03s; }
-.menuRodape.recolher button:nth-child(4) { animation-delay: 0.06s; }
-.menuRodape.recolher button:nth-child(3) { animation-delay: 0.04s; }
-.menuRodape.recolher button:nth-child(2) { animation-delay: 0.05s; }
-.menuRodape.recolher button:nth-child(1) { animation-delay: 0.02s; }
+.menuRodape.recolher button:nth-child(5) {
+    animation-delay: 0.03s;
+}
+
+.menuRodape.recolher button:nth-child(4) {
+    animation-delay: 0.06s;
+}
+
+.menuRodape.recolher button:nth-child(3) {
+    animation-delay: 0.04s;
+}
+
+.menuRodape.recolher button:nth-child(2) {
+    animation-delay: 0.05s;
+}
+
+.menuRodape.recolher button:nth-child(1) {
+    animation-delay: 0.02s;
+}
+
 .mensagemRecebida {
     box-shadow: 1px 2px 5px 5px #41414470;
     border-radius: 30px;
@@ -331,8 +375,4 @@ h1 {
 }
 .mensagemRecebida p{
     display: block;
-    color: white;
-}
-#container.iniciado {
-    display: none;
 }
