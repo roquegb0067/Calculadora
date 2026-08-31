@@ -65,7 +65,7 @@ async fn tratar_pesquisa(Json(payload): Json<PesquisaRequest>) -> Json<PesquisaR
     let api_key = env::var("GEMINI_API_KEY").unwrap_or_default();
     
     let url = format!(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={}",
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key={}",
         api_key
     );
 
