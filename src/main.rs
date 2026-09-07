@@ -116,7 +116,7 @@ struct retorno_videos{
 }
 */
     async fn tratar_videos() -> Json<retorno_videos> {
-    let video = json_videos {
+    let video = retorno_videos {
         id: 1,
         id_video: "dQw4w9WgXcQ".to_string(),
         titulo_video: "Curso de Rust para Iniciantes".to_string(),
