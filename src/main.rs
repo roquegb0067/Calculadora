@@ -104,6 +104,27 @@ async fn tratar_pesquisa(Json(payload): Json<PesquisaRequest>) -> Json<PesquisaR
 // ============================================================================
 // 3. FUNÇÃO MAIN - Apenas inicializa o servidor
 // ============================================================================
+#[derive(Serialize)]
+struct retornoVideos{
+    id: i32,
+    id_video: String,
+    classe_video: String,
+    titulo_video: String,
+}
+async fn conectar_yt(){
+    let key_youtube = env::var("YOUTUBE_API_KEY").unwrap_or_default();
+}
+
+    async fn tratar_videos() -> Json<VideoResponse> {
+    let video = VideoResponse {
+        id: 1,
+        id_video: "dQw4w9WgXcQ".to_string(),
+        titulo_video: "Curso de Rust para Iniciantes".to_string(),
+        classe_video: "Programação".to_string(),
+    };
+
+    Json(video)
+}
 
 #[tokio::main]
 async fn main() {
@@ -113,6 +134,7 @@ async fn main() {
     // Monta a aplicação com as rotas e arquivos estáticos
     let app = Router::new()
         .route("/api/pesquisa", post(tratar_pesquisa))
+        .route("/api/videos", post(tratar_videos))
         .nest_service("/", ServeDir::new("."));
 
     println!("Servidor rodando em http://127.0.0.1:3000");
