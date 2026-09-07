@@ -16,18 +16,11 @@ function montar_cards() {
 }
 async function Receber_json() {
   try {
-    const json_videos = await fetch('/api/videos', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            // Converte o objeto completo em JSON string aqui
-            body: JSON.stringify(dados)
-        });
-    if (!json_videos.ok) {
-      throw new Error(`HTTP error! Status: ${json_videos.status}`);
+    const RetornoVideos = await fetch('http://127.0.0.1:3000/api/videos');
+    if (!RetornoVideos.ok) {
+      throw new Error(`HTTP error! Status: ${RetornoVideos.status}`);
     }
-    const resposta = await json_videos.json();
+    const resposta = await RetornoVideos.json();
     console.log(resposta);
     const { classe_video, titulo_video, id_video, id } = resposta;
     montar_cards(classe_video, titulo_video, id_video, id)

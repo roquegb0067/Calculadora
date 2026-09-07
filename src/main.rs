@@ -105,7 +105,7 @@ async fn tratar_pesquisa(Json(payload): Json<PesquisaRequest>) -> Json<PesquisaR
 // 3. FUNÇÃO MAIN - Apenas inicializa o servidor
 // ============================================================================
 #[derive(Serialize)]
-struct retornoVideos{
+struct RetornoVideos{
     id: i32,
     id_video: String,
     classe_video: String,
@@ -134,7 +134,7 @@ async fn main() {
     // Monta a aplicação com as rotas e arquivos estáticos
     let app = Router::new()
         .route("/api/pesquisa", post(tratar_pesquisa))
-        .route("/api/videos", post(tratar_videos))
+        .route("/api/videos", get(tratar_videos))
         .nest_service("/", ServeDir::new("."));
 
     println!("Servidor rodando em http://127.0.0.1:3000");
