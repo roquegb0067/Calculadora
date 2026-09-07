@@ -105,7 +105,7 @@ async fn tratar_pesquisa(Json(payload): Json<PesquisaRequest>) -> Json<PesquisaR
 // 3. FUNÇÃO MAIN - Apenas inicializa o servidor
 // ============================================================================
 #[derive(Serialize)]
-struct retorno_videos{
+struct retornoVideos{
     id: i32,
     id_video: String,
     classe_video: String,
@@ -115,8 +115,8 @@ struct retorno_videos{
     let key_youtube = env::var("YOUTUBE_API_KEY").unwrap_or_default();
 }
 */
-    async fn tratar_videos() -> Json<retorno_videos> {
-    let video = retorno_videos {
+    async fn tratar_videos() -> Json<retornoVideos> {
+    let video = retornoVideos {
         id: 1,
         id_video: "dQw4w9WgXcQ".to_string(),
         titulo_video: "Curso de Rust para Iniciantes".to_string(),
