@@ -1,6 +1,6 @@
 let container_videos = document.getElementById('container_principal_videos');
 
-function montar_cards() {
+function montar_cards(classe_video, titulo_video, id_video, id) {
   let card_video = `<div class="video-card">
   <div class="video-header">
     <span class="video-class">${classe_video}</span>
