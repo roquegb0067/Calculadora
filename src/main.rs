@@ -1,4 +1,4 @@
-use axum::{routing::post, Json, Router};
+use axum::{routing::get, post, Json, Router};
 use serde::{Deserialize, Serialize};
 use std::env;
 use tower_http::services::ServeDir;
@@ -115,8 +115,8 @@ struct RetornoVideos{
     let key_youtube = env::var("YOUTUBE_API_KEY").unwrap_or_default();
 }
 */
-    async fn tratar_videos() -> Json<retornoVideos> {
-    let video = retornoVideos {
+    async fn tratar_videos() -> Json<RetornoVideos> {
+    let video = RetornoVideos {
         id: 1,
         id_video: "dQw4w9WgXcQ".to_string(),
         titulo_video: "Curso de Rust para Iniciantes".to_string(),
