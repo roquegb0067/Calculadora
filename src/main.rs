@@ -178,8 +178,8 @@ async fn tratar_videos() -> Json<RetornoVideos> {
         classe_video: "Programação".to_string(),
     };
 
-    Json(video)
-    conectar_yt()
+    Json(video);
+    conectar_yt();
 }
 
 #[tokio::main]
