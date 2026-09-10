@@ -169,7 +169,7 @@ async fn conectar_yt() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
-conectar_yt!();
+conectar_yt!()
 async fn tratar_videos() -> Json<RetornoVideos> {
     let video = RetornoVideos {
         id: 1,
@@ -178,7 +178,7 @@ async fn tratar_videos() -> Json<RetornoVideos> {
         classe_video: "Programação".to_string(),
     };
 
-    Json(video);
+    Json(video)
 }
 
 #[tokio::main]
