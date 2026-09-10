@@ -133,16 +133,15 @@ struct Snippet {
     title: String,
 }
 async fn conectar_yt() -> Result<(), Box<dyn std::error::Error>> {
-    // 1. Suas variáveis
+
     let key_youtube = env::var("YOUTUBE_API_KEY").unwrap_or_default();
     let termo_pesquisa = "Ciência todo dia";
     
-    // 2. Construindo a URL com os parâmetros de consulta (Query Parameters)
     let url = "https://googleapis.com";
     
     let params = [
         ("part", "snippet"),
-        ("q", termo_pesquisa), // Passando a sua variável aqui
+        ("q", termo_pesquisa),
         ("type", "video"),
         ("maxResults", "5"),
         ("key", &key_youtube),
