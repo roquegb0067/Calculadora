@@ -107,7 +107,7 @@ struct RetornoVideos{
     id_video: String,
     classe_video: String,
     titulo_video: String,
-    termo_pesquisa: Strng,
+    termo_pesquisa: String,
 }
 #[derive(Deserialize, Debug)]
 struct YouTubeResponse {
@@ -158,18 +158,15 @@ async fn conectar_yt() -> Result<Vec<RetornoVideos>, Box<dyn std::error::Error>>
     // 4. Verificando o status e tratando a resposta
     if response.status().is_success() {
         let dados: YouTubeResponse = response.json().await?;
-        
+        let mut contador_id = 1;
         for item in dados.items {
             if let Some(id) = item.id.video_id {
-                println!("Título: {}", item.snippet.title);
-                println!("Link: https://youtu.be/{}\n", id);
                 lista_videos.push(RetornoVideos {
                     id: contador_id,
                     id_video: id,
                     titulo_video: item.snippet.title,
                     classe_video: termo_pesquisa.to_string(),
                 });
-                tratar_videos(lista_videos);
                 contador_id += 1;
             }
         }
@@ -178,14 +175,15 @@ async fn conectar_yt() -> Result<Vec<RetornoVideos>, Box<dyn std::error::Error>>
          println!("{}", response.text().await?);
     }
 
-    Ok(())
+    Ok(lista_videos)
 }
 
 
-async fn tratar_videos(lista_videos) -> Json<RetornoVideos> {
-    let video = lista_videos;
-    let _ = conectar_yt().await;
-    Json(video)
+async fn tratar_videos() -> Json<Vec<RetornoVideos>> {
+    // Tenta buscar do YouTube. Se der erro, retorna uma lista vazia
+    let lista = conectar_yt().await.unwrap_or_default();
+
+    Json(lista)
 }
 
 #[tokio::main]
