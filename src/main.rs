@@ -107,7 +107,6 @@ struct RetornoVideos{
     id_video: String,
     classe_video: String,
     titulo_video: String,
-    termo_pesquisa: String,
 }
 #[derive(Deserialize, Debug)]
 struct YouTubeResponse {
