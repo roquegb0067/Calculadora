@@ -15,22 +15,27 @@ function montar_cards(classe_video, titulo_video, id_video, id) {
   container_videos.innerHTML = card_video;
 }
 async function Receber_json() {
-    try {
+  try {
     const RetornoVideos = await fetch('http://127.0.0.1:3000/api/videos');
+    
+    // 1. Tratamento de erro HTTP
     if (!RetornoVideos.ok) {
-  throw new Error(`HTTP error! Status: ${RetornoVideos.status}`);
+      throw new Error(`HTTP error! Status: ${RetornoVideos.status}`);
+    }
 
-    const resposta = await RetornoVideos.json();
-    const { classe_video, titulo_video, id_video, id } = resposta;
-    // Percorre cada vídeo retornado do Rust
+    // 2. Converte a resposta em Array/Lista vinda do Rust
+    const listaDeVideos = await RetornoVideos.json();
+
+    // 3. Percorre CADA vídeo da lista e passa as propriedades para a montar_cards
     listaDeVideos.forEach(video => {
+      const { classe_video, titulo_video, id_video, id } = video;
       montar_cards(classe_video, titulo_video, id_video, id);
     });
 
-  return { classe_video, titulo_video, id_video, id };
+    return listaDeVideos;
+
   } catch (error) {
     console.error('Erro ao buscar vídeos:', error);
   }
 }
-
 Receber_json();
