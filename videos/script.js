@@ -1,13 +1,13 @@
 let container_videos = document.getElementById('container_principal_videos');
 
 function montar_cards(classe_video, titulo_video, id_video, id) {
+  const urlThumbnail = `https://img.youtube.com/vi/${id_video}/hqdefault.jpg`;
   let card_video = `<div class="video-card">
   <div class="video-header">
     <span class="video-class">${classe_video}</span>
     <button type="button" class="more-options">⋮</button>
   </div>
-  
-  <iframe src="${id_video}" class="video-thumbnail-placeholder">
+  <img src="${urlThumbnail}" alt="${titulo_video}" class="thumb-img" />
     <span>Vídeo indisponível</span>
   </iframe>
 
