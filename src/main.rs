@@ -169,7 +169,7 @@ async fn conectar_yt() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
-conectar_yt().await;
+
 
 async fn tratar_videos() -> Json<RetornoVideos> {
     let video = RetornoVideos {
@@ -180,6 +180,7 @@ async fn tratar_videos() -> Json<RetornoVideos> {
     };
 
     Json(video)
+    conectar_yt().await;
 }
 
 #[tokio::main]
