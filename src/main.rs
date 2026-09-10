@@ -107,6 +107,7 @@ struct RetornoVideos{
     id_video: String,
     classe_video: String,
     titulo_video: String,
+    termo_pesquisa: Strng,
 }
 #[derive(Deserialize, Debug)]
 struct YouTubeResponse {
@@ -129,7 +130,7 @@ struct VideoId {
 struct Snippet {
     title: String,
 }
-async fn conectar_yt() -> Result<(), Box<dyn std::error::Error>> {
+async fn conectar_yt() -> Result<Vec<RetornoVideos>, Box<dyn std::error::Error>> {
 
     let key_youtube = env::var("YOUTUBE_API_KEY").unwrap_or_default();
     let termo_pesquisa = "Ciência todo dia";
@@ -151,7 +152,9 @@ async fn conectar_yt() -> Result<(), Box<dyn std::error::Error>> {
         .query(&params)
         .send()
         .await?;
-
+    
+    //cria a lista de videos que vão ser enviados para o front
+    let mut lista_videos = Vec::new();
     // 4. Verificando o status e tratando a resposta
     if response.status().is_success() {
         let dados: YouTubeResponse = response.json().await?;
@@ -160,6 +163,14 @@ async fn conectar_yt() -> Result<(), Box<dyn std::error::Error>> {
             if let Some(id) = item.id.video_id {
                 println!("Título: {}", item.snippet.title);
                 println!("Link: https://youtu.be/{}\n", id);
+                lista_videos.push(RetornoVideos {
+                    id: contador_id,
+                    id_video: id,
+                    titulo_video: item.snippet.title,
+                    classe_video: termo_pesquisa.to_string(),
+                });
+                tratar_videos(lista_videos);
+                contador_id += 1;
             }
         }
     } else {
@@ -171,13 +182,8 @@ async fn conectar_yt() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 
-async fn tratar_videos() -> Json<RetornoVideos> {
-    let video = RetornoVideos {
-        id: 1,
-        id_video: "dQw4w9WgXcQ".to_string(),
-        titulo_video: "Curso de Rust para Iniciantes".to_string(),
-        classe_video: "Programação".to_string(),
-    };
+async fn tratar_videos(lista_videos) -> Json<RetornoVideos> {
+    let video = lista_videos;
     let _ = conectar_yt().await;
     Json(video)
 }
