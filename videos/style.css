@@ -75,7 +75,7 @@ body{
 }
 
 .thumb-img {
-  width: 100%;
+  width: 95%;
   height: 180px;
   background: #202024;
   border-radius: 10px;
@@ -89,7 +89,7 @@ body{
 }
 
 .video-title {
-  color: white; /* Ou a cor de destaque do seu app */
+  color: white;
   font-size: 15px;
   margin-top: 12px;
   font-weight: 600;

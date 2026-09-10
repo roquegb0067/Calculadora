@@ -8,10 +8,8 @@ function montar_cards(classe_video, titulo_video, id_video, id) {
     <button type="button" class="more-options">⋮</button>
   </div>
   <img src="${urlThumbnail}" alt="${titulo_video}" class="thumb-img" />
-    <span>Vídeo indisponível</span>
-  </iframe>
 
-  <h3 class="video-title">${titulo_video}</h3><p style="display: none;">${id}</p>`;
+  <h3 class="video-title">${titulo_video}</h3><p style="display: none;">${id}</p> </div>`;
   container_videos.innerHTML += card_video;
 }
 async function Receber_json() {
