@@ -101,9 +101,6 @@ async fn tratar_pesquisa(Json(payload): Json<PesquisaRequest>) -> Json<PesquisaR
     })
 }
 
-// ============================================================================
-// 3. FUNÇÃO MAIN - Apenas inicializa o servidor
-// ============================================================================
 #[derive(Serialize)]
 struct RetornoVideos{
     id: i32,
@@ -173,13 +170,7 @@ async fn conectar_yt() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-    
-    
-    
-    
-    
-    
-    async fn tratar_videos() -> Json<RetornoVideos> {
+async fn tratar_videos() -> Json<RetornoVideos> {
     let video = RetornoVideos {
         id: 1,
         id_video: "dQw4w9WgXcQ".to_string(),
@@ -188,6 +179,7 @@ async fn conectar_yt() -> Result<(), Box<dyn std::error::Error>> {
     };
 
     Json(video)
+    conectar_yt()
 }
 
 #[tokio::main]
