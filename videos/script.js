@@ -18,15 +18,16 @@ async function Receber_json() {
   try {
     // Como é GET, basta passar a URL
     const RetornoVideos = await fetch('http://127.0.0.1:3000/api/videos');
-
+    
     if (!RetornoVideos.ok) {
       throw new Error(`HTTP error! Status: ${RetornoVideos.status}`);
     }
-
+    
     const resposta = await RetornoVideos.json();
     const { classe_video, titulo_video, id_video, id } = resposta;
-
-    montar_cards(classe_video, titulo_video, id_video, id);
+    listaDeVideos.forEach(video => {
+      montar_cards(video.classe_video, video.titulo_video, video.id_video, video.id);
+    });
     return { classe_video, titulo_video, id_video, id };
   } catch (error) {
     console.error('Failed to fetch data:', error);
