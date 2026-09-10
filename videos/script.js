@@ -31,7 +31,7 @@ async function Receber_json() {
   }
 }
 
-carregarVideos();
+Receber_json();
     
     
     
