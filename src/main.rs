@@ -145,7 +145,7 @@ async fn conectar_yt() -> Result<(), Box<dyn std::error::Error>> {
         ("q", termo_pesquisa), // Passando a sua variável aqui
         ("type", "video"),
         ("maxResults", "5"),
-        ("key", key_youtube),
+        ("key", &key_youtube),
     ];
 
     // 3. Criando o cliente HTTP e fazendo a requisição GET
