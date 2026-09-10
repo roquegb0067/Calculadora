@@ -20,7 +20,7 @@ async function Receber_json() {
     if (!RetornoVideos.ok) {
   throw new Error(`HTTP error! Status: ${RetornoVideos.status}`);
 
-    const resposta = await RetornoVideos.json();, 
+    const resposta = await RetornoVideos.json();
     const { classe_video, titulo_video, id_video, id } = resposta;
     // Percorre cada vídeo retornado do Rust
     listaDeVideos.forEach(video => {
