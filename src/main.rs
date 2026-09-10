@@ -178,7 +178,7 @@ async fn tratar_videos() -> Json<RetornoVideos> {
         titulo_video: "Curso de Rust para Iniciantes".to_string(),
         classe_video: "Programação".to_string(),
     };
-    let _ = conectar_yt.await;
+    let _ = conectar_yt;
     Json(video)
 }
 
