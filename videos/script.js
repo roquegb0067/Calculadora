@@ -12,7 +12,7 @@ function montar_cards(classe_video, titulo_video, id_video, id) {
   </iframe>
 
   <h3 class="video-title">${titulo_video}</h3><p style="display: none;">${id}</p>`;
-  container_videos.innerHTML = card_video;
+  container_videos.innerHTML += card_video;
 }
 async function Receber_json() {
   try {
