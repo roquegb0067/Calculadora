@@ -134,7 +134,7 @@ async fn conectar_yt() -> Result<(), Box<dyn std::error::Error>> {
     let key_youtube = env::var("YOUTUBE_API_KEY").unwrap_or_default();
     let termo_pesquisa = "Ciência todo dia";
     
-    let url = "https://googleapis.com";
+    let url = "https://www.googleapis.com/youtube/v3/search";
     
     let params = [
         ("part", "snippet"),
@@ -159,7 +159,7 @@ async fn conectar_yt() -> Result<(), Box<dyn std::error::Error>> {
         for item in dados.items {
             if let Some(id) = item.id.video_id {
                 println!("Título: {}", item.snippet.title);
-                println!("Link: https://youtu.be{}\n", id);
+                println!("Link: https://youtu.be/{}\n", id);
             }
         }
     } else {
@@ -178,9 +178,8 @@ async fn tratar_videos() -> Json<RetornoVideos> {
         titulo_video: "Curso de Rust para Iniciantes".to_string(),
         classe_video: "Programação".to_string(),
     };
-
+    let _ = conectar_yt.await;
     Json(video)
-    conectar_yt().await;
 }
 
 #[tokio::main]
