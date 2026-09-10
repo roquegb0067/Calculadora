@@ -15,7 +15,29 @@ function montar_cards(classe_video, titulo_video, id_video, id) {
   container_videos.innerHTML = card_video;
 }
 async function Receber_json() {
-  try {
+    try {
+    const resposta = await fetch('http://127.0.0.1:3000/api/videos');
+    if (!resposta.ok) throw new Error(`HTTP Error: ${resposta.status}`);
+
+    const listaDeVideos = await resposta.json();
+
+    // Percorre cada vídeo retornado do Rust
+    listaDeVideos.forEach(video => {
+      montar_cards(video.classe_video, video.titulo_video, video.id_video, video.id);
+    });
+
+  } catch (error) {
+    console.error('Erro ao buscar vídeos:', error);
+  }
+}
+
+carregarVideos();
+    
+    
+    
+/*    
+    
+    
     // Como é GET, basta passar a URL
     const RetornoVideos = await fetch('http://127.0.0.1:3000/api/videos');
     
@@ -35,4 +57,4 @@ async function Receber_json() {
 }
 
 // Executa automaticamente para carregar os vídeos assim que entrar na página
-Receber_json();
+Receber_json();*/
