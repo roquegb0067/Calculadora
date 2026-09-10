@@ -169,7 +169,7 @@ async fn conectar_yt() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
-
+conectar_yt();
 async fn tratar_videos() -> Json<RetornoVideos> {
     let video = RetornoVideos {
         id: 1,
@@ -179,7 +179,6 @@ async fn tratar_videos() -> Json<RetornoVideos> {
     };
 
     Json(video);
-    conectar_yt();
 }
 
 #[tokio::main]
@@ -192,7 +191,7 @@ async fn main() {
         .route("/api/pesquisa", post(tratar_pesquisa))
         .route("/api/videos", get(tratar_videos))
         .nest_service("/", ServeDir::new("."));
-
+        
     println!("Servidor rodando em http://127.0.0.1:3000");
 
     // Inicia o servidor escutando na porta 3000
