@@ -111,10 +111,75 @@ struct RetornoVideos{
     classe_video: String,
     titulo_video: String,
 }
-/*async fn conectar_yt(){
-    let key_youtube = env::var("YOUTUBE_API_KEY").unwrap_or_default();
+#[derive(Deserialize, Debug)]
+struct YouTubeResponse {
+    items: Vec<YouTubeItem>,
 }
-*/
+
+#[derive(Deserialize, Debug)]
+struct YouTubeItem {
+    id: VideoId,
+    snippet: Snippet,
+}
+
+#[derive(Deserialize, Debug)]
+struct VideoId {
+    #[serde(rename = "videoId")]
+    video_id: Option<String>, // Pode ser None se o resultado for um canal/playlist
+}
+
+#[derive(Deserialize, Debug)]
+struct Snippet {
+    title: String,
+}
+async fn conectar_yt() -> Result<(), Box<dyn std::error::Error>> {
+    // 1. Suas variáveis
+    let key_youtube = env::var("YOUTUBE_API_KEY").unwrap_or_default();
+    let termo_pesquisa = "Ciência todo dia";
+    
+    // 2. Construindo a URL com os parâmetros de consulta (Query Parameters)
+    let url = "https://googleapis.com";
+    
+    let params = [
+        ("part", "snippet"),
+        ("q", termo_pesquisa), // Passando a sua variável aqui
+        ("type", "video"),
+        ("maxResults", "5"),
+        ("key", key_youtube),
+    ];
+
+    // 3. Criando o cliente HTTP e fazendo a requisição GET
+    let client = reqwest::Client::new();
+    let response = client
+        .get(url)
+        .query(&params)
+        .send()
+        .await?;
+
+    // 4. Verificando o status e tratando a resposta
+    if response.status().is_success() {
+        let dados: YouTubeResponse = response.json().await?;
+        
+        for item in dados.items {
+            if let Some(id) = item.id.video_id {
+                println!("Título: {}", item.snippet.title);
+                println!("Link: https://youtu.be{}\n", id);
+            }
+        }
+    } else {
+        println!("Erro na requisição: {}", response.status());
+         println!("{}", response.text().await?);
+    }
+
+    Ok(())
+}
+
+    
+    
+    
+    
+    
+    
     async fn tratar_videos() -> Json<RetornoVideos> {
     let video = RetornoVideos {
         id: 1,
