@@ -140,7 +140,7 @@ async fn conectar_yt(pesquisa_usuario: PesquisaUsuario) -> Result<Vec<RetornoVid
     
     let params = [
         ("part", "snippet"),
-        ("q", termo_pesquisa),
+        ("q", &termo_pesquisa),
         ("type", "video"),
         ("maxResults", "5"),
         ("key", &key_youtube),
@@ -180,7 +180,7 @@ async fn conectar_yt(pesquisa_usuario: PesquisaUsuario) -> Result<Vec<RetornoVid
 }
 
 
-async fn tratar_videos() -> Json<Vec<RetornoVideos>> {
+async fn tratar_videos(PesquisaUsuario) -> Json<Vec<RetornoVideos>> {
     // Tenta buscar do YouTube. Se der erro, retorna uma lista vazia
     let lista = conectar_yt().await.unwrap_or_default();
 
