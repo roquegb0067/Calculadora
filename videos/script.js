@@ -1,5 +1,5 @@
 let container_videos = document.getElementById('container_principal_videos');
-/*
+
 function montar_cards(classe_video, titulo_video, id_video, id) {
   const urlThumbnail = `https://img.youtube.com/vi/${id_video}/hqdefault.jpg`;
   let card_video = `<div class="video-card">
@@ -36,12 +36,84 @@ async function Receber_json() {
     console.error('Erro ao buscar vídeos:', error);
   }
 }
-Receber_json();*/
+
+Receber_json();
+// Transformamos em um Array de Objetos usando [ ]
+async function categoriasDB(){
+  openMenu()
+try {
+  const dadosCategoriasGet = await fetch('/api/categorias');
+  // 1. Tratamento de erro HTTP
+  if (!dadosCategoriasGet.ok) {
+      throw new Error(`HTTP error! Status: ${dadosCategoriasGet.status}`);
+    }
+  
+  // 2. Converte a resposta em Array/Lista vinda do Rust
+  const objetoCategoriasGet = await dadosCategoriasGet.json();
+  
+  // 3. Percorre CADA vídeo da lista e passa as propriedades para a montar_cards
+  bjetoCategoriasGet.forEach(dataGet => {
+    const { dados_menu, nomes_categorias } = dataGet;
+  });
+  
+  return objetoCategoriasGet;
+  
+} catch (error) {
+  console.error('Erro ao buscar dados:', error);
+}
+const classList = [
+  dataGet
+];
+openclass(classList)
+}
+function openclass(classList){
+  // Agora o forEach funciona perfeitamente
+  classList.forEach(item => {
+    const { dados_menu, nomes_categorias } = item;
+    
+    // O console.log precisa ficar aqui dentro para acessar as variáveis de cada item
+    criar(dados_menu, nomes_categorias);
+  });
+}
+function criar(dados_menu, nomes_categorias) {
+  // 1. Limpa o menu antes de criar os novos botões (opcional, mas evita duplicar se a função rodar duas vezes)
+  sidebar.innerHTML = '';
+
+  // 2. Passa por cada nome da categoria
+  nomes_categorias.forEach((nomecategoriaReturn) => {
+    // 3. Cria o elemento de botão na memória
+    const botao = document.createElement('button');
+    
+    // 4. Configura as propriedades do botão
+    botao.type = 'submit';
+    botao.textContent = nomecategoriaReturn; // Injeta apenas o nome atual com segurança
+    
+    // 5. Adiciona o botão diretamente dentro da sidebar
+    sidebar.appendChild(botao);
+  });
+}
+
+// Chama a função para testar
 
 //logica de abrir e fechar menu lateral
 const sidebar = document.getElementById('sidebarMenu');
   sidebar.classList.add('off');
 // Função para abrir o menu (chame esta função no evento onclick do botão no rodapé)
+function CategoriaMenu(categoria) {
+  if (categoria === 'classes') {
+    let categoriasBuscadas = 'classes';
+    let categoriaList = 
+    categoriasDB(categoriasBuscadas);
+  }
+  if (categoria === 'interesses') {
+    let categoriasBuscadas = 'interesses';
+    categoriasDB(categoriasBuscadas);
+}
+  if (categoria === 'mais') {
+    let categoriasBuscadas = 'mais';
+    categoriasDB(categoriasBuscadas);
+  }
+}
 function openMenu() {
   sidebar.classList.add('active');
 }
