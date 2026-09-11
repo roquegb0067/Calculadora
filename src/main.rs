@@ -180,13 +180,15 @@ async fn conectar_yt(pesquisa_usuario: PesquisaUsuario) -> Result<Vec<RetornoVid
 }
 
 
-async fn tratar_videos(PesquisaUsuario) -> Json<Vec<RetornoVideos>> {
+async fn tratar_videos(_: PesquisaUsuario) -> Json<Vec<RetornoVideos>> {
     // Tenta buscar do YouTube. Se der erro, retorna uma lista vazia
     let lista = conectar_yt().await.unwrap_or_default();
 
     Json(lista)
 }
-
+async fn tratar_categorias(){
+    println!("não tem nada nessa função kkk");
+}
 #[tokio::main]
 async fn main() {
     // Carrega as variáveis do arquivo .env
