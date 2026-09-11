@@ -79,10 +79,11 @@ struct Snippet {
     title: String,
 }
 //pesquisa youtube
-#[derive(Deserialize, Debug)]
-struct pesquisaUsuario{
+#[derive(Deserialize, Serialize, Debug)]
+struct PesquisaUsuario {
     pergunta: String,
 }
+
 
 async fn tratar_pesquisa(Json(payload): Json<PesquisaRequest>) -> Json<PesquisaResponse> {
     // Busca a chave configurada no arquivo .env
@@ -125,14 +126,15 @@ async fn tratar_pesquisa(Json(payload): Json<PesquisaRequest>) -> Json<PesquisaR
     })
 }
 
-async fn tratar_pesquisa_usuario(){
-let pesquisa_usuario: PesquisaUsuario = serde_json::from_str(dados)
-conectar_yt(pesquisa_pesquisa).await
+async fn tratar_pesquisa_usuario(Json(payload): Json<PesquisaUsuario>) {
+    // Chama o conectar_yt passando a struct desserializada
+    let _ = conectar_yt(payload).await;
 }
+
 async fn conectar_yt(pesquisa_usuario: PesquisaUsuario) -> Result<Vec<RetornoVideos>, Box<dyn std::error::Error>> {
 
     let key_youtube = env::var("YOUTUBE_API_KEY").unwrap_or_default();
-    let termo_pesquisa = pesquisa_usuario;
+    let termo_pesquisa = pesquisa_usuario.pergunta; 
     
     let url = "https://www.googleapis.com/youtube/v3/search";
     
@@ -195,7 +197,7 @@ async fn main() {
         .route("/api/pesquisa", post(tratar_pesquisa))
         .route("/api/videos", get(tratar_videos))
         .route("/api/categorias", get(tratar_categorias))
-        .route("/api/videoSearch", get(tratar_pesquisa_usuario))
+        .route("/api/videoSearch", post(tratar_pesquisa_usuario))
         .nest_service("/", ServeDir::new("."));
         
     println!("Servidor rodando em http://127.0.0.1:3000");
