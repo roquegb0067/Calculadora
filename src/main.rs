@@ -182,7 +182,7 @@ async fn conectar_yt(pesquisa_usuario: PesquisaUsuario) -> Result<Vec<RetornoVid
 
 async fn tratar_videos(_: PesquisaUsuario) -> Json<Vec<RetornoVideos>> {
     // Tenta buscar do YouTube. Se der erro, retorna uma lista vazia
-    let lista = conectar_yt().await.unwrap_or_default();
+    let lista = conectar_yt(PesquisaUsuario).await.unwrap_or_default();
 
     Json(lista)
 }
