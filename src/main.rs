@@ -3,11 +3,6 @@ use serde::{Deserialize, Serialize};
 use std::env;
 use tower_http::services::ServeDir;
 
-// ============================================================================
-// 1. ESTRUTURAS (STRUCTS) - Ficam fora de qualquer função
-// ============================================================================
-
-// O que o JavaScript envia para o Rust
 #[derive(Deserialize)]
 struct PesquisaRequest {
     pergunta: String,
@@ -55,10 +50,39 @@ struct GeminiPartResponse {
 struct GeminiResponseBody {
     candidates: Option<Vec<GeminiCandidate>>,
 }
+#[derive(Serialize)]
+struct RetornoVideos{
+    id: i32,
+    id_video: String,
+    classe_video: String,
+    titulo_video: String,
+}
+#[derive(Deserialize, Debug)]
+struct YouTubeResponse {
+    items: Vec<YouTubeItem>,
+}
 
-// ============================================================================
-// 2. HANDLERS (FUNÇÕES DAS ROTAS) - Também ficam fora da main
-// ============================================================================
+#[derive(Deserialize, Debug)]
+struct YouTubeItem {
+    id: VideoId,
+    snippet: Snippet,
+}
+
+#[derive(Deserialize, Debug)]
+struct VideoId {
+    #[serde(rename = "videoId")]
+    video_id: Option<String>, // Pode ser None se o resultado for um canal/playlist
+}
+
+#[derive(Deserialize, Debug)]
+struct Snippet {
+    title: String,
+}
+//pesquisa youtube
+#[derive(Deserialize, Debug)]
+struct pesquisaUsuario{
+    pergunta: String,
+}
 
 async fn tratar_pesquisa(Json(payload): Json<PesquisaRequest>) -> Json<PesquisaResponse> {
     // Busca a chave configurada no arquivo .env
@@ -101,38 +125,14 @@ async fn tratar_pesquisa(Json(payload): Json<PesquisaRequest>) -> Json<PesquisaR
     })
 }
 
-#[derive(Serialize)]
-struct RetornoVideos{
-    id: i32,
-    id_video: String,
-    classe_video: String,
-    titulo_video: String,
+async fn tratar_pesquisa_usuario(){
+let pesquisa_usuario: PesquisaUsuario = serde_json::from_str(dados)
+conectar_yt(pesquisa_usuario);
 }
-#[derive(Deserialize, Debug)]
-struct YouTubeResponse {
-    items: Vec<YouTubeItem>,
-}
-
-#[derive(Deserialize, Debug)]
-struct YouTubeItem {
-    id: VideoId,
-    snippet: Snippet,
-}
-
-#[derive(Deserialize, Debug)]
-struct VideoId {
-    #[serde(rename = "videoId")]
-    video_id: Option<String>, // Pode ser None se o resultado for um canal/playlist
-}
-
-#[derive(Deserialize, Debug)]
-struct Snippet {
-    title: String,
-}
-async fn conectar_yt() -> Result<Vec<RetornoVideos>, Box<dyn std::error::Error>> {
+async fn conectar_yt(pesquisa_usuario: PesquisaUsuario) -> Result<Vec<RetornoVideos>, Box<dyn std::error::Error>> {
 
     let key_youtube = env::var("YOUTUBE_API_KEY").unwrap_or_default();
-    let termo_pesquisa = "Ciência todo dia";
+    let termo_pesquisa = PesquisaUsuario;
     
     let url = "https://www.googleapis.com/youtube/v3/search";
     
@@ -194,6 +194,7 @@ async fn main() {
     let app = Router::new()
         .route("/api/pesquisa", post(tratar_pesquisa))
         .route("/api/videos", get(tratar_videos))
+        .route("/api/categorias", get(tratar_categorias))
         .nest_service("/", ServeDir::new("."));
         
     println!("Servidor rodando em http://127.0.0.1:3000");

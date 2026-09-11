@@ -1,5 +1,37 @@
 let container_videos = document.getElementById('container_principal_videos');
+let inputPesquisaYt = document.getElementById('inputPesquisaYt');
 
+function PesquisaYouTube() {
+  if (!inputPesquisaYt.value.trim()) return;
+  
+  // Monta um objeto JS
+  const dados = {
+    pergunta: inputPesquisaYt
+  };
+  
+  // Chama a função assíncrona passando o objeto
+  PesquisaYouTube(dados);
+}
+
+async function pesquisarNoYouTube(dados) {
+  try {
+    const pesquisa = await fetch('/api/videoSearch', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      // Converte o objeto completo em JSON string aqui
+      body: JSON.stringify(dados)
+    });
+    
+    if (!pesquisa.ok) {
+      throw new Error(`Erro na requisição: ${pesquisa.status}`);
+    }
+    return;
+  } catch (erro) {
+    console.error('Falha ao enviar JSON:', erro);
+  }
+}
 function montar_cards(classe_video, titulo_video, id_video, id) {
   const urlThumbnail = `https://img.youtube.com/vi/${id_video}/hqdefault.jpg`;
   let card_video = `<div class="video-card">
@@ -75,7 +107,7 @@ function openclass(classList){
     criar(dados_menu, nomes_categorias);
   });
 }
-function criar(dados_menu, nomes_categorias) {
+function criar(dados_menu, nomes_categorias){
   // 1. Limpa o menu antes de criar os novos botões (opcional, mas evita duplicar se a função rodar duas vezes)
   sidebar.innerHTML = '';
 
