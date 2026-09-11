@@ -5,10 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/assets/style.css">
   <title></title>
 </head>
 
-<body>
+<body id="body">
   <!-- Barra de Busca -->
 <div class="search-box">
   <input type="text" placeholder="Faça uma busca..." />
@@ -19,10 +20,21 @@
     </svg>
   </button>
 </div>
-
 <!-- Card de Vídeo/Resultado -->
 <div id="container_principal_videos"></div>
+<div class="rodape">
+  <button onclick="openMenu()" type="submit">Classes</button>
+  <button onclick="openMenu()" type="submit">Mais</button>
+  <button onclick="openMenu()" type="submit">Interesses</button>
+</div>
+<!--Menu lateral-->
+<aside class="sidebar-menu" id="sidebarMenu">
+<h1>Interesses</h1>
+<hr />
+<button style="width: 80%;" class="fechar" onclick="closeMenu()">Sair</button>
+</aside>
 <script src="script.js" type="text/javascript" charset="utf-8"></script>
+<script src="/assets/script.js" type="text/javascript" charset="utf-8"></script>
 </body>
 
 </html>

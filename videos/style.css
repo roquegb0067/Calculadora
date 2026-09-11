@@ -1,4 +1,4 @@
-body{
+body {
   background-color: black;
 }
 
@@ -42,6 +42,7 @@ body{
   background: #29292e;
   color: #fff;
 }
+
 .video-card {
   background: #121214;
   border: 1px solid #202024;
@@ -94,3 +95,23 @@ body{
   margin-top: 12px;
   font-weight: 600;
 }
+
+.rodape {
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  bottom: 25px;
+  position: fixed;
+}
+
+.rodape button {
+  height: 40px;
+  width: 80px;
+  background: transparent;
+  border: 1px solid white;
+  box-shadow: 1px 20px 100px 15px #0015FF;
+  border-radius: 15px;
+  color: white;
+}
+
+/* Sidebar com 100% height e 30% width */

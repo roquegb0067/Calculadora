@@ -1,5 +1,5 @@
 let container_videos = document.getElementById('container_principal_videos');
-
+/*
 function montar_cards(classe_video, titulo_video, id_video, id) {
   const urlThumbnail = `https://img.youtube.com/vi/${id_video}/hqdefault.jpg`;
   let card_video = `<div class="video-card">
@@ -36,4 +36,47 @@ async function Receber_json() {
     console.error('Erro ao buscar vídeos:', error);
   }
 }
-Receber_json();
+Receber_json();*/
+
+//logica de abrir e fechar menu lateral
+const sidebar = document.getElementById('sidebarMenu');
+  sidebar.classList.add('off');
+// Função para abrir o menu (chame esta função no evento onclick do botão no rodapé)
+function openMenu() {
+  sidebar.classList.add('active');
+}
+
+// Função para fechar o menu
+function closeMenu() {
+  sidebar.classList.remove('active');
+}
+
+let xInicial = 0;
+let yInicial = 0;
+const limiteMinimo = 50; // Distância mínima em pixels para considerar um swipe
+
+document.addEventListener('touchstart', (e) => {
+    xInicial = e.touches[0].clientX;
+    yInicial = e.touches[0].clientY;
+}, false);
+
+document.addEventListener('touchend', (e) => {
+    if (!xInicial || !yInicial) return;
+
+    let xFinal = e.changedTouches[0].clientX;
+    let yFinal = e.changedTouches[0].clientY;
+
+    let diferencaX = xInicial - xFinal;
+    let diferencaY = yInicial - yFinal;
+
+    // Confere se o movimento horizontal foi maior que o vertical
+    if (Math.abs(diferencaX) > Math.abs(diferencaY)) {
+        if (diferencaX > limiteMinimo) {
+            closeMenu()
+            // Coloque sua ação aqui
+        }
+    }
+
+    xInicial = 0;
+    yInicial = 0;
+}, false);

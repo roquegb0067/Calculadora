@@ -294,8 +294,53 @@
 #ferramentas.active .btn-menu:nth-child(3) { transition-delay: 0.3s; }
 #ferramentas.active .btn-menu:nth-child(4) { transition-delay: 0.4s; }
 
-/* Efeito Hover nos Botões */
 .btn-menu:hover {
     background: #2a2a2a;
     transform: scale(1.05) !important;
+    
+}
+/*###################*/
+/*menu lateral esquerdo sidebar,  page youtube*/
+.sidebar-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30%;
+  min-width: 250px;
+  height: 100vh;
+  background: #121214;
+  border-right: 1px solid #202024;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  transform: translateX(-100%);
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.sidebar-menu.active {
+  transform: translateX(0);
+}
+hr {
+  width: 100%;
+}
+.sidebar-menu button {
+  width: 90%;
+  height: 30px;
+  margin-top: 15px;
+  border-radius: 10px;
+  border: 1px solid white;
+  background: black;
+  color: white;
+}
+.fechar {
+  position: fixed;
+  bottom: 10px;
+  margin-left: 5px;
+}
+.sidebar-menu h1{
+  color: white;
+  margin: 0px;
 }

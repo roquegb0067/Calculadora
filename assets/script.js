@@ -60,7 +60,36 @@ function cardsResposta(resultado) {
   chatHistory.insertAdjacentHTML('beforeend', novasMensagens);
   chatHistory.scrollTop = chatHistory.scrollHeight;
 }
-
+const rodape_ia = `
+<div id="chat-history"></div>
+  <div class="rodape">
+    <!-- 1. Botão Citroën (Subir) -->
+    <button onclick="menuRodape()" type="button" class="btn-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 11L12 5L6 11"></path>
+        <path d="M18 18L12 12L6 18"></path>
+      </svg>
+    </button>
+    <!-- 2. Container com Glow exclusivo para o Input -->
+    <div class="input-glow">
+      <input type="text" id="search" placeholder="Faça uma pergunta a IA">
+    </div>
+    
+    <!-- 3. Botão Aviãozinho -->
+    <button onclick="BuscaNaIA()" type="button" class="btn-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 2L11 13"></path>
+        <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+      </svg>
+      
+    </button>
+  </div>
+`
+let usable = document.getElementById('usable')
+function rodape_pages_ia() {
+usable.innerHTML += rodape_ia;
+usable.classList.add('active');
+}
 
 let visorRodape = document.getElementById('visorRodape');
 
@@ -69,8 +98,7 @@ function menuRodape() {
         <div class="menuRodape" id="meuMenu">
             <button type="button" onclick="selecionarImagem()">📷</button>
 
-            <button onclick="abrirMenu()" type="button">⚒</button>
-            <button type="button">YT</button>
+            <button onclick="abrirMenu()" type="button">⚒</button><a href="/videos"><button type="button">YT</button></a>
             <button type="button">💾</button>
             <button type="button" onclick="fecharMenu()">×</button>
         </div>
@@ -139,17 +167,59 @@ function selecionarImagem() {
 // ''logica'' do menu de ferramentas
 const displayFerramentas = document.getElementById('ferramentas');
 const ferramentasMenu = 
-`
+/*`
       <a href="/Gemini/index.html"><button type="button" class="btn-menu">Inteligência Artificial</button></a>
       <a href="/bhaskara/bhaskara.html"><button type="button" class="btn-menu">Formula de Bhaskara</button></a>
       <a href="/calcularPorcentagem/porcentagem.html"><button type="button" class="btn-menu">Calcular porcentagem</button></a>
       <a href="/velocidade/metrosps.html"><button type="button" class="btn-menu">Calcular velocidade</button></a>
       <a href="/raizes/raizes.html"><button type="button" class="btn-menu">Calcular raizes</button></a>
       <a href="/tabuada/tabuada.html"><button type="button" class="btn-menu">Tabuada</button></a>
-      <a href="/portugol/index.html"><button type="button" class="btn-menu">Portugol</button></a>`;
+      <a href="/portugol/index.html"><button type="button" class="btn-menu">Portugol</button></a>`;*/;
 function abrirMenu() {
   displayFerramentas.innerHTML = ferramentasMenu
     if (displayFerramentas) {
         displayFerramentas.classList.add('active');
     }
 }
+//menu LATERAL SIDEBAR
+const sidebar = document.getElementById('sidebarMenu');
+  sidebar.classList.add('off');
+// Função para abrir o menu (chame esta função no evento onclick do botão no rodapé)
+function openMenu() {
+  sidebar.classList.add('active');
+}
+
+// Função para fechar o menu
+function closeMenu() {
+  sidebar.classList.remove('active');
+}
+
+let xInicial = 0;
+let yInicial = 0;
+const limiteMinimo = 50; // Distância mínima em pixels para considerar um swipe
+
+document.addEventListener('touchstart', (e) => {
+    xInicial = e.touches[0].clientX;
+    yInicial = e.touches[0].clientY;
+}, false);
+
+document.addEventListener('touchend', (e) => {
+    if (!xInicial || !yInicial) return;
+
+    let xFinal = e.changedTouches[0].clientX;
+    let yFinal = e.changedTouches[0].clientY;
+
+    let diferencaX = xInicial - xFinal;
+    let diferencaY = yInicial - yFinal;
+
+    // Confere se o movimento horizontal foi maior que o vertical
+    if (Math.abs(diferencaX) > Math.abs(diferencaY)) {
+        if (diferencaX > limiteMinimo) {
+            closeMenu()
+            // Coloque sua ação aqui
+        }
+    }
+
+    xInicial = 0;
+    yInicial = 0;
+}, false);
