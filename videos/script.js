@@ -1,75 +1,141 @@
-let container_videos = document.getElementById('container_principal_videos');
-let inputPesquisaYt = document.getElementById('inputPesquisaYt');
+let container_videos = document.getElementById(
+  'container_principal_videos'
+);
 
-function PesquisaYouTube() {
+let inputPesquisaYt = document.getElementById(
+  'inputPesquisaYt'
+);
+
+
+async function PesquisaYouTube() {
+
   if (!inputPesquisaYt.value.trim()) return;
-  
-  // Monta um objeto JS
+
+
   const dados = {
-    pergunta: inputPesquisaYt
+    pergunta: inputPesquisaYt.value
   };
-  
-  // Chama a função assíncrona passando o objeto
-  PesquisaYouTube(dados);
-}
 
-async function pesquisarNoYouTube(dados) {
-  try {
-    const pesquisa = await fetch('/api/videoSearch', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      // Converte o objeto completo em JSON string aqui
-      body: JSON.stringify(dados)
-    });
-    
-    if (!pesquisa.ok) {
-      throw new Error(`Erro na requisição: ${pesquisa.status}`);
-    }
-    return;
-  } catch (erro) {
-    console.error('Falha ao enviar JSON:', erro);
-  }
-}
-function montar_cards(classe_video, titulo_video, id_video, id) {
-  const urlThumbnail = `https://img.youtube.com/vi/${id_video}/hqdefault.jpg`;
-  let card_video = `<div class="video-card">
-  <div class="video-header">
-    <span class="video-class">${classe_video}</span>
-    <button type="button" class="more-options">⋮</button>
-  </div>
-  <img src="${urlThumbnail}" alt="${titulo_video}" class="thumb-img" />
 
-  <h3 class="video-title">${titulo_video}</h3><p style="display: none;">${id}</p> </div>`;
-  container_videos.innerHTML += card_video;
-}
-async function Receber_json() {
   try {
-    const RetornoVideos = await fetch('http://127.0.0.1:3000/api/videos');
-    
-    // 1. Tratamento de erro HTTP
-    if (!RetornoVideos.ok) {
-      throw new Error(`HTTP error! Status: ${RetornoVideos.status}`);
+
+    const resposta = await fetch(
+      '/api/videoSearch',
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify(dados)
+      }
+    );
+
+
+    if (!resposta.ok) {
+
+      throw new Error(
+        `Erro na requisição: ${resposta.status}`
+      );
+
     }
 
-    // 2. Converte a resposta em Array/Lista vinda do Rust
-    const listaDeVideos = await RetornoVideos.json();
 
-    // 3. Percorre CADA vídeo da lista e passa as propriedades para a montar_cards
+    const listaDeVideos =
+      await resposta.json();
+
+
+    container_videos.innerHTML = "";
+
+
     listaDeVideos.forEach(video => {
-      const { classe_video, titulo_video, id_video, id } = video;
-      montar_cards(classe_video, titulo_video, id_video, id);
+
+      const {
+        classe_video,
+        titulo_video,
+        id_video,
+        id
+      } = video;
+
+
+      montar_cards(
+        classe_video,
+        titulo_video,
+        id_video,
+        id
+      );
+
     });
 
-    return listaDeVideos;
 
-  } catch (error) {
-    console.error('Erro ao buscar vídeos:', error);
+  } catch (erro) {
+
+    console.error(
+      'Erro ao pesquisar vídeos:',
+      erro
+    );
+
   }
+
 }
 
-Receber_json();
+
+function montar_cards(
+  classe_video,
+  titulo_video,
+  id_video,
+  id
+) {
+
+  const urlThumbnail =
+    `https://img.youtube.com/vi/${id_video}/hqdefault.jpg`;
+
+
+  let card_video = `
+  
+  <div class="video-card">
+
+    <div class="video-header">
+
+      <span class="video-class">
+        ${classe_video}
+      </span>
+
+      <button
+        type="button"
+        class="more-options"
+      >
+        ⋮
+      </button>
+
+    </div>
+
+
+    <img
+      src="${urlThumbnail}"
+      alt="${titulo_video}"
+      class="thumb-img"
+    />
+
+
+    <h3 class="video-title">
+      ${titulo_video}
+    </h3>
+
+
+    <p style="display: none;">
+      ${id}
+    </p>
+
+  </div>
+  
+  `;
+
+
+  container_videos.innerHTML += card_video;
+
+}
 // Transformamos em um Array de Objetos usando [ ]
 async function categoriasDB(){
   openMenu()
