@@ -273,9 +273,9 @@
     width: 90%;
     height: 30px;
     background: black;
-    box-shadow: 2px 1px 5px 2px #29A891D1;
-    color: #c0c0c0;
-    border: none;
+    box-shadow: 2px 1px 5px 2px white/*#29A891D1*/;
+    color: white;
+    border: 1px solid white;
     border-radius: 2px;
     margin: 0 auto;
     opacity: 0;

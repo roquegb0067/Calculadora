@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/assets/videoPlayer.css">
+  
+  <title></title>
+</head>
+
+<body onload="abrirPlayer('idVideo')">
+  <!-- Modal/Diálogo do Player de Vídeo -->
+<dialog id="modal-video" class="modal-video-container">
+  <div class="modal-video-content">
+    <button type="button" id="btn-fechar-video" class="btn-close-video">✕</button>
+    <div id="container-player">
+      <!-- O iframe do YouTube será injetado aqui via JavaScript -->
+    </div>
+    <div class="rodapeReproducao">
+
+    <button style="font-size: 30px; font-weight: 500;" type="submit">♡</button>
+    <button type="submit">Classes</button>
+    <button type="submit">💾</button>
+    
+    </div>
+  </div>
+</dialog>
+<script src="/assets/vídeoPlayer.js" type="text/javascript" charset="utf-8"></script>
+</body>
+
+</html>

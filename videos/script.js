@@ -138,7 +138,6 @@ async function categoriasDB(categoria) {
   openMenu();
   
   try {
-    // Você pode enviar a categoria como parâmetro de busca se a sua API suportar:
     // const dadosCategoriasGet = await fetch(`/api/categorias?tipo=${categoriasBuscadas}`);
     const dadosCategoriasGet = await fetch('/api/categorias');
     
@@ -149,10 +148,10 @@ async function categoriasDB(categoria) {
     
     // 2. Converte a resposta em Array/Lista vinda do Rust
     const objetoCategoriasGet = await dadosCategoriasGet.json();
-    
+
     // 3. Chama a função openclass passando a lista completa que veio da API
     openclass(objetoCategoriasGet);
-    
+  
     return objetoCategoriasGet;
     
   } catch (error) {
@@ -173,12 +172,11 @@ function openclass(objetoCategoriasGet) {
     }
   });
 }
-
 function criar(dados_menu, nomes_categorias) {
   if (!sidebar) return;
-  
+    console.log(categoria)
   // 1. Limpa o menu antes de criar os novos botões
-  sidebar.innerHTML = '';
+  sidebar.innerHTML = `<h1>${categoria}</h1><hr />`;
   
   // 2. Passa por cada nome da categoria
   nomes_categorias.forEach((nomecategoriaReturn) => {
@@ -203,6 +201,7 @@ async function CategoriaMenu(categoria) {
   if (categoria === 'classes' || categoria === 'interesses' || categoria === 'mais') {
     await categoriasDB(categoria);
   }
+  return categoria;
 }
 
 function openMenu() {
