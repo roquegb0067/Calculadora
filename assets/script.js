@@ -167,14 +167,14 @@ function selecionarImagem() {
 // ''logica'' do menu de ferramentas
 const displayFerramentas = document.getElementById('ferramentas');
 const ferramentasMenu = 
-/*`
+`
       <a href="/Gemini/index.html"><button type="button" class="btn-menu">Inteligência Artificial</button></a>
       <a href="/bhaskara/bhaskara.html"><button type="button" class="btn-menu">Formula de Bhaskara</button></a>
       <a href="/calcularPorcentagem/porcentagem.html"><button type="button" class="btn-menu">Calcular porcentagem</button></a>
       <a href="/velocidade/metrosps.html"><button type="button" class="btn-menu">Calcular velocidade</button></a>
       <a href="/raizes/raizes.html"><button type="button" class="btn-menu">Calcular raizes</button></a>
       <a href="/tabuada/tabuada.html"><button type="button" class="btn-menu">Tabuada</button></a>
-      <a href="/portugol/index.html"><button type="button" class="btn-menu">Portugol</button></a>`;*/;
+      <a href="/portugol/index.html"><button type="button" class="btn-menu">Portugol</button></a>`;
 function abrirMenu() {
   displayFerramentas.innerHTML = ferramentasMenu
     if (displayFerramentas) {
