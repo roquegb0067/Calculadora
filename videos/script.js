@@ -5,6 +5,7 @@ let container_videos = document.getElementById(
 let inputPesquisaYt = document.getElementById(
   'inputPesquisaYt'
 );
+const sidebar = document.getElementById('sidebarMenu');
 async function PesquisaYouTube() {
 
   if (!inputPesquisaYt.value.trim()) return;
@@ -134,7 +135,8 @@ function montar_cards(
   container_videos.innerHTML += card_video;
 
 }
-async function categoriasDB() {
+
+async function categoriasDB(categoria) {
   openMenu();
   
   try {
@@ -167,7 +169,7 @@ function openclass(objetoCategoriasGet) {
   objetoCategoriasGet.forEach(item => {
     const { dados_menu, nomes_categorias } = item;
     
-    // Se nomes_categorias existir, cria os botões
+    // Se nomes_categorias existir, cria os botões*/
     if (nomes_categorias) {
       criar(dados_menu, nomes_categorias);
     }
@@ -195,10 +197,7 @@ function criar(dados_menu, nomes_categorias) {
 }
 
 // Inicialização da sidebar e controle do menu
-const sidebar = document.getElementById('sidebarMenu');
-if (sidebar) {
-  sidebar.classList.add('off');
-}
+
 
 // Função assíncrona para abrir e buscar a categoria do menu
 async function CategoriaMenu(categoria) {
