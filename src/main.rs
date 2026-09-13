@@ -126,11 +126,16 @@ async fn tratar_pesquisa(Json(payload): Json<PesquisaRequest>) -> Json<PesquisaR
     })
 }
 
-async fn tratar_pesquisa_usuario(Json(payload): Json<PesquisaUsuario>) {
-    // Chama o conectar_yt passando a struct desserializada
-    let _ = conectar_yt(payload).await;
-}
+async fn tratar_pesquisa_usuario(
+    Json(payload): Json<PesquisaUsuario>
+) -> Json<Vec<RetornoVideos>> {
 
+    let lista = conectar_yt(payload)
+        .await
+        .unwrap_or_default();
+
+    Json(lista)
+}
 async fn conectar_yt(pesquisa_usuario: PesquisaUsuario) -> Result<Vec<RetornoVideos>, Box<dyn std::error::Error>> {
 
     let key_youtube = env::var("YOUTUBE_API_KEY").unwrap_or_default();
