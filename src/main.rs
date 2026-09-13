@@ -183,14 +183,6 @@ async fn conectar_yt(pesquisa_usuario: PesquisaUsuario) -> Result<Vec<RetornoVid
 
     Ok(lista_videos)
 }
-
-
-async fn tratar_videos(_: PesquisaUsuario) -> Json<Vec<RetornoVideos>> {
-    // Tenta buscar do YouTube. Se der erro, retorna uma lista vazia
-    let lista = conectar_yt(payload).await.unwrap_or_default();
-
-    Json(lista)
-}
 async fn tratar_categorias(){
     println!("não tem nada nessa função kkk");
 }
@@ -202,7 +194,6 @@ async fn main() {
     // Monta a aplicação com as rotas e arquivos estáticos
     let app = Router::new()
         .route("/api/pesquisa", post(tratar_pesquisa))
-        .route("/api/videos", get(tratar_videos))
         .route("/api/categorias", get(tratar_categorias))
         .route("/api/videoSearch", post(tratar_pesquisa_usuario))
         .nest_service("/", ServeDir::new("."));
