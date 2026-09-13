@@ -6,91 +6,89 @@ let inputPesquisaYt = document.getElementById(
   'inputPesquisaYt'
 );
 const sidebar = document.getElementById('sidebarMenu');
+
 async function PesquisaYouTube() {
-
+  
   if (!inputPesquisaYt.value.trim()) return;
-
-
+  
+  
   const dados = {
     pergunta: inputPesquisaYt.value
   };
-
-
+  
+  
   try {
-
+    
     const resposta = await fetch(
       '/api/videoSearch',
       {
         method: 'POST',
-
+        
         headers: {
           'Content-Type': 'application/json'
         },
-
+        
         body: JSON.stringify(dados)
       }
     );
-
-
+    
+    
     if (!resposta.ok) {
-
+      
       throw new Error(
         `Erro na requisição: ${resposta.status}`
       );
-
+      
     }
-
-
+    
+    
     const listaDeVideos =
       await resposta.json();
-
-
+    
+    
     container_videos.innerHTML = "";
-
-
+    
+    
     listaDeVideos.forEach(video => {
-
+      
       const {
         classe_video,
         titulo_video,
         id_video,
         id
       } = video;
-
-
+      
+      
       montar_cards(
         classe_video,
         titulo_video,
         id_video,
         id
       );
-
+      
     });
-
-
+    
+    
   } catch (erro) {
-
+    
     console.error(
       'Erro ao pesquisar vídeos:',
       erro
     );
-
   }
-
 }
 
-montar_cards(classe_video, titulo_video, id_video, id)
 function montar_cards(
   classe_video,
   titulo_video,
   id_video,
   id
 ) {
-
+  
   const urlThumbnail =
     `https://img.youtube.com/vi/${id_video}/hqdefault.jpg`;
-
-
+  
+  
   let card_video = `
   
   <div class="video-card">
@@ -130,10 +128,10 @@ function montar_cards(
   </div>
   
   `;
-
-
+  
+  
   container_videos.innerHTML += card_video;
-
+  
 }
 
 async function categoriasDB(categoria) {
@@ -165,7 +163,7 @@ async function categoriasDB(categoria) {
 function openclass(objetoCategoriasGet) {
   // Garantir que classList é uma lista válida antes de iterar
   if (!Array.isArray(objetoCategoriasGet)) return;
-
+  
   objetoCategoriasGet.forEach(item => {
     const { dados_menu, nomes_categorias } = item;
     
@@ -178,10 +176,10 @@ function openclass(objetoCategoriasGet) {
 
 function criar(dados_menu, nomes_categorias) {
   if (!sidebar) return;
-
+  
   // 1. Limpa o menu antes de criar os novos botões
   sidebar.innerHTML = '';
-
+  
   // 2. Passa por cada nome da categoria
   nomes_categorias.forEach((nomecategoriaReturn) => {
     // 3. Cria o elemento de botão na memória
@@ -200,12 +198,12 @@ function criar(dados_menu, nomes_categorias) {
 
 
 // Função assíncrona para abrir e buscar a categoria do menu
+
 async function CategoriaMenu(categoria) {
   if (categoria === 'classes' || categoria === 'interesses' || categoria === 'mais') {
     await categoriasDB(categoria);
   }
 }
-
 
 function openMenu() {
   sidebar.classList.add('active');
@@ -215,33 +213,31 @@ function openMenu() {
 function closeMenu() {
   sidebar.classList.remove('active');
 }
-
+// Lógica para detecção de deslize / swipe na tela
 let xInicial = 0;
 let yInicial = 0;
-const limiteMinimo = 50; // Distância mínima em pixels para considerar um swipe
+const limiteMinimo = 50; // Distância mínima em pixels
 
 document.addEventListener('touchstart', (e) => {
-    xInicial = e.touches[0].clientX;
-    yInicial = e.touches[0].clientY;
+  xInicial = e.touches[0].clientX;
+  yInicial = e.touches[0].clientY;
 }, false);
 
 document.addEventListener('touchend', (e) => {
-    if (!xInicial || !yInicial) return;
-
-    let xFinal = e.changedTouches[0].clientX;
-    let yFinal = e.changedTouches[0].clientY;
-
-    let diferencaX = xInicial - xFinal;
-    let diferencaY = yInicial - yFinal;
-
-    // Confere se o movimento horizontal foi maior que o vertical
-    if (Math.abs(diferencaX) > Math.abs(diferencaY)) {
-        if (diferencaX > limiteMinimo) {
-            closeMenu()
-            // Coloque sua ação aqui
-        }
+  if (!xInicial || !yInicial) return;
+  
+  let xFinal = e.changedTouches[0].clientX;
+  let yFinal = e.changedTouches[0].clientY;
+  
+  let diferencaX = xInicial - xFinal;
+  let diferencaY = yInicial - yFinal;
+  
+  if (Math.abs(diferencaX) > Math.abs(diferencaY)) {
+    if (diferencaX > limiteMinimo) {
+      closeMenu();
     }
-
-    xInicial = 0;
-    yInicial = 0;
+  }
+  
+  xInicial = 0;
+  yInicial = 0;
 }, false);
