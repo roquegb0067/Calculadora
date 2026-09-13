@@ -136,45 +136,50 @@ function montar_cards(
   container_videos.innerHTML += card_video;
 
 }
-// Transformamos em um Array de Objetos usando [ ]
-async function categoriasDB(){
+async function categoriasDB(categoriasBuscadas) {
   openMenu();
-try {
-  const dadosCategoriasGet = await fetch('/api/categorias');
-  // 1. Tratamento de erro HTTP
-  if (!dadosCategoriasGet.ok) {
+  
+  try {
+    // Você pode enviar a categoria como parâmetro de busca se a sua API suportar:
+    // const dadosCategoriasGet = await fetch(`/api/categorias?tipo=${categoriasBuscadas}`);
+    const dadosCategoriasGet = await fetch('/api/categorias');
+    
+    // 1. Tratamento de erro HTTP
+    if (!dadosCategoriasGet.ok) {
       throw new Error(`HTTP error! Status: ${dadosCategoriasGet.status}`);
     }
-  
-  // 2. Converte a resposta em Array/Lista vinda do Rust
-  const objetoCategoriasGet = await dadosCategoriasGet.json();
-  
-  // 3. Percorre CADA vídeo da lista e passa as propriedades para a montar_cards
-  bjetoCategoriasGet.forEach(dataGet => {
-    const { dados_menu, nomes_categorias } = dataGet;
-  });
-  
-  return objetoCategoriasGet;
-  
-} catch (error) {
-  console.error('Erro ao buscar dados:', error);
+    
+    // 2. Converte a resposta em Array/Lista vinda do Rust
+    const objetoCategoriasGet = await dadosCategoriasGet.json();
+    
+    // 3. Chama a função openclass passando a lista completa que veio da API
+    openclass(objetoCategoriasGet);
+    
+    return objetoCategoriasGet;
+    
+  } catch (error) {
+    console.error('Erro ao buscar dados:', error);
+  }
 }
-const classList = [
-  dataGet
-];
-openclass(classList);
-}
-function openclass(classList){
-  // Agora o forEach funciona perfeitamente
+
+function openclass(classList) {
+  // Garantir que classList é uma lista válida antes de iterar
+  if (!Array.isArray(classList)) return;
+
   classList.forEach(item => {
     const { dados_menu, nomes_categorias } = item;
     
-    // O console.log precisa ficar aqui dentro para acessar as variáveis de cada item
-    criar(dados_menu, nomes_categorias);
+    // Se nomes_categorias existir, cria os botões
+    if (nomes_categorias) {
+      criar(dados_menu, nomes_categorias);
+    }
   });
 }
-function criar(dados_menu, nomes_categorias){
-  // 1. Limpa o menu antes de criar os novos botões (opcional, mas evita duplicar se a função rodar duas vezes)
+
+function criar(dados_menu, nomes_categorias) {
+  if (!sidebar) return;
+
+  // 1. Limpa o menu antes de criar os novos botões
   sidebar.innerHTML = '';
 
   // 2. Passa por cada nome da categoria
@@ -183,8 +188,8 @@ function criar(dados_menu, nomes_categorias){
     const botao = document.createElement('button');
     
     // 4. Configura as propriedades do botão
-    botao.type = 'submit';
-    botao.textContent = nomecategoriaReturn; // Injeta apenas o nome atual com segurança
+    botao.type = 'button'; // Alterado de 'submit' para 'button' para não recarregar páginas
+    botao.textContent = nomecategoriaReturn;
     
     // 5. Adiciona o botão diretamente dentro da sidebar
     sidebar.appendChild(botao);
