@@ -78,7 +78,7 @@ async function PesquisaYouTube() {
     );
   }
 }
-
+/*
 function montar_cards(
   classe_video,
   titulo_video,
@@ -136,7 +136,7 @@ function montar_cards(
 }
 
 
-
+*/
 function montar_cards(classe_video, titulo_video, id_video, id) {
   const urlThumbnail = `https://img.youtube.com/vi/${id_video}/hqdefault.jpg`;
 
