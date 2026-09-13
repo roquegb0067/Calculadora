@@ -78,65 +78,7 @@ async function PesquisaYouTube() {
     );
   }
 }
-/*
-function montar_cards(
-  classe_video,
-  titulo_video,
-  id_video,
-  id
-) {
-  
-  const urlThumbnail =
-    `https://img.youtube.com/vi/${id_video}/hqdefault.jpg`;
-  
-  
-  let card_video = `
-  
-  <div class="video-card">
 
-    <div class="video-header">
-
-      <span class="video-class">
-        ${classe_video}
-      </span>
-
-      <button
-        type="button"
-        class="more-options"
-      >
-        ⋮
-      </button>
-
-    </div>
-
-
-    <img
-      src="${urlThumbnail}"
-      alt="${titulo_video}"
-      class="thumb-img"
-    />
-
-
-    <h3 class="video-title">
-      ${titulo_video}
-    </h3>
-
-
-    <p style="display: none;">
-      ${id}
-    </p>
-
-  </div>
-  
-  `;
-  
-  
-  container_videos.innerHTML += card_video;
-  
-}
-
-
-*/
 function montar_cards(classe_video, titulo_video, id_video, id) {
   const urlThumbnail = `https://img.youtube.com/vi/${id_video}/hqdefault.jpg`;
 
@@ -182,9 +124,10 @@ function abrirPlayer(idVideo) {
       allowfullscreen>
     </iframe>
   `;
-
+let videoReproduzindo = idVideo;
   // Exibe a janela modal
   modalVideo.showModal();
+return videoReproduzindo;
 }
 
 // Fecha a janela e remove o iframe para o som/reprodução parar
@@ -214,4 +157,15 @@ function MenuAdaptavelPlayer() {
     if (displayMenuPlayer) {
         displayMenuPlayer.classList.add('active');
     }
+}
+function interacoesMenuPlayer(Interacao){
+  if (Interacao === 'curtir') {
+    
+  }
+  if (Interacao === 'classes') {
+    MenuAdaptavelPlayer()
+  }
+  if (Interacao === 'salvar') {
+    
+  }
 }
