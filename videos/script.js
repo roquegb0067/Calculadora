@@ -5,8 +5,6 @@ let container_videos = document.getElementById(
 let inputPesquisaYt = document.getElementById(
   'inputPesquisaYt'
 );
-
-
 async function PesquisaYouTube() {
 
   if (!inputPesquisaYt.value.trim()) return;
@@ -80,7 +78,7 @@ async function PesquisaYouTube() {
 
 }
 
-
+montar_cards(classe_video, titulo_video, id_video, id)
 function montar_cards(
   classe_video,
   titulo_video,
@@ -136,7 +134,7 @@ function montar_cards(
   container_videos.innerHTML += card_video;
 
 }
-async function categoriasDB(categoriasBuscadas) {
+async function categoriasDB() {
   openMenu();
   
   try {
@@ -162,11 +160,11 @@ async function categoriasDB(categoriasBuscadas) {
   }
 }
 
-function openclass(classList) {
+function openclass(objetoCategoriasGet) {
   // Garantir que classList é uma lista válida antes de iterar
-  if (!Array.isArray(classList)) return;
+  if (!Array.isArray(objetoCategoriasGet)) return;
 
-  classList.forEach(item => {
+  objetoCategoriasGet.forEach(item => {
     const { dados_menu, nomes_categorias } = item;
     
     // Se nomes_categorias existir, cria os botões
@@ -188,7 +186,7 @@ function criar(dados_menu, nomes_categorias) {
     const botao = document.createElement('button');
     
     // 4. Configura as propriedades do botão
-    botao.type = 'button'; // Alterado de 'submit' para 'button' para não recarregar páginas
+    botao.type = 'button'; // Alterado para 'button' para não recarregar páginas
     botao.textContent = nomecategoriaReturn;
     
     // 5. Adiciona o botão diretamente dentro da sidebar
@@ -196,27 +194,20 @@ function criar(dados_menu, nomes_categorias) {
   });
 }
 
-// Chama a função para testar
-
-//logica de abrir e fechar menu lateral
+// Inicialização da sidebar e controle do menu
 const sidebar = document.getElementById('sidebarMenu');
+if (sidebar) {
   sidebar.classList.add('off');
-// Função para abrir o menu (chame esta função no evento onclick do botão no rodapé)
-function CategoriaMenu(categoria) {
-  if (categoria === 'classes') {
-    let categoriasBuscadas = 'classes';
-    let categoriaList = 
-    categoriasDB(categoriasBuscadas);
-  }
-  if (categoria === 'interesses') {
-    let categoriasBuscadas = 'interesses';
-    categoriasDB(categoriasBuscadas);
 }
-  if (categoria === 'mais') {
-    let categoriasBuscadas = 'mais';
-    categoriasDB(categoriasBuscadas);
+
+// Função assíncrona para abrir e buscar a categoria do menu
+async function CategoriaMenu(categoria) {
+  if (categoria === 'classes' || categoria === 'interesses' || categoria === 'mais') {
+    await categoriasDB(categoria);
   }
 }
+
+
 function openMenu() {
   sidebar.classList.add('active');
 }
