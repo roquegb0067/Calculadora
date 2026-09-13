@@ -1,161 +1,252 @@
-let container_videos = document.getElementById('container_principal_videos');
-let inputPesquisaYt = document.getElementById('inputPesquisaYt');
+let container_videos = document.getElementById(
+  'container_principal_videos'
+);
 
-// 1. Função de Pesquisa no YouTube (POST)
+let inputPesquisaYt = document.getElementById(
+  'inputPesquisaYt'
+);
+
+
 async function PesquisaYouTube() {
+
   if (!inputPesquisaYt.value.trim()) return;
+
 
   const dados = {
     pergunta: inputPesquisaYt.value
   };
 
+
   try {
-    const resposta = await fetch('/api/videoSearch', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(dados)
-    });
+
+    const resposta = await fetch(
+      '/api/videoSearch',
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify(dados)
+      }
+    );
+
 
     if (!resposta.ok) {
-      throw new Error(`Erro na requisição: ${resposta.status}`);
+
+      throw new Error(
+        `Erro na requisição: ${resposta.status}`
+      );
+
     }
 
-    const listaDeVideos = await resposta.json();
+
+    const listaDeVideos =
+      await resposta.json();
+
+
     container_videos.innerHTML = "";
 
+
     listaDeVideos.forEach(video => {
-      const { classe_video, titulo_video, id_video, id } = video;
-      montar_cards(classe_video, titulo_video, id_video, id);
+
+      const {
+        classe_video,
+        titulo_video,
+        id_video,
+        id
+      } = video;
+
+
+      montar_cards(
+        classe_video,
+        titulo_video,
+        id_video,
+        id
+      );
+
     });
 
+
   } catch (erro) {
-    console.error('Erro ao pesquisar vídeos:', erro);
+
+    console.error(
+      'Erro ao pesquisar vídeos:',
+      erro
+    );
+
   }
+
 }
 
-// 2. Renderiza os cards de vídeo na tela
-function montar_cards(classe_video, titulo_video, id_video, id) {
-  const urlThumbnail = `https://img.youtube.com/vi/${id_video}/hqdefault.jpg`;
+
+function montar_cards(
+  classe_video,
+  titulo_video,
+  id_video,
+  id
+) {
+
+  const urlThumbnail =
+    `https://img.youtube.com/vi/${id_video}/hqdefault.jpg`;
+
 
   let card_video = `
+  
   <div class="video-card">
+
     <div class="video-header">
-      <span class="video-class">${classe_video}</span>
-      <button type="button" class="more-options">⋮</button>
+
+      <span class="video-class">
+        ${classe_video}
+      </span>
+
+      <button
+        type="button"
+        class="more-options"
+      >
+        ⋮
+      </button>
+
     </div>
-    <img src="${urlThumbnail}" alt="${titulo_video}" class="thumb-img" />
-    <h3 class="video-title">${titulo_video}</h3>
-    <p style="display: none;">${id}</p>
+
+
+    <img
+      src="${urlThumbnail}"
+      alt="${titulo_video}"
+      class="thumb-img"
+    />
+
+
+    <h3 class="video-title">
+      ${titulo_video}
+    </h3>
+
+
+    <p style="display: none;">
+      ${id}
+    </p>
+
   </div>
+  
   `;
 
+
   container_videos.innerHTML += card_video;
+
 }
-
-// 3. Busca de Categorias no Backend (GET)
-async function categoriasDB(tipoCategoria) {
+// Transformamos em um Array de Objetos usando [ ]
+async function categoriasDB(){
   openMenu();
-
-  try {
-    // Caso precise enviar o parâmetro de tipo no GET: `/api/categorias?tipo=${tipoCategoria}`
-    const dadosCategoriasGet = await fetch('/api/categorias');
-
-    if (!dadosCategoriasGet.ok) {
+try {
+  const dadosCategoriasGet = await fetch('/api/categorias');
+  // 1. Tratamento de erro HTTP
+  if (!dadosCategoriasGet.ok) {
       throw new Error(`HTTP error! Status: ${dadosCategoriasGet.status}`);
     }
-
-    const objetoCategoriasGet = await dadosCategoriasGet.json();
-    
-    // Chama a função para desenhar as categorias recebidas no menu
-    openclass(objetoCategoriasGet);
-
-    return objetoCategoriasGet;
-
-  } catch (error) {
-    console.error('Erro ao buscar dados:', error);
-  }
+  
+  // 2. Converte a resposta em Array/Lista vinda do Rust
+  const objetoCategoriasGet = await dadosCategoriasGet.json();
+  
+  // 3. Percorre CADA vídeo da lista e passa as propriedades para a montar_cards
+  bjetoCategoriasGet.forEach(dataGet => {
+    const { dados_menu, nomes_categorias } = dataGet;
+  });
+  
+  return objetoCategoriasGet;
+  
+} catch (error) {
+  console.error('Erro ao buscar dados:', error);
 }
-
-// 4. Encaminha a lista recebida do backend para a criação de elementos
-function openclass(classList) {
-  if (!Array.isArray(classList)) return;
-
+const classList = [
+  dataGet
+];
+openclass(classList);
+}
+function openclass(classList){
+  // Agora o forEach funciona perfeitamente
   classList.forEach(item => {
-    // Se o backend retornar um array de objetos contendo dados_menu e nomes_categorias:
-    if (item.nomes_categorias) {
-      criar(item.dados_menu, item.nomes_categorias);
-    } else if (typeof item === 'string') {
-      // Caso o backend retorne apenas uma lista simples de strings Vec<String>:
-      criar(null, [item]);
-    }
+    const { dados_menu, nomes_categorias } = item;
+    
+    // O console.log precisa ficar aqui dentro para acessar as variáveis de cada item
+    criar(dados_menu, nomes_categorias);
   });
 }
-
-// 5. Injeta os botões na sidebar
-function criar(dados_menu, nomes_categorias) {
-  // Limpa os botões antigos antes de inserir os novos
+function criar(dados_menu, nomes_categorias){
+  // 1. Limpa o menu antes de criar os novos botões (opcional, mas evita duplicar se a função rodar duas vezes)
   sidebar.innerHTML = '';
 
+  // 2. Passa por cada nome da categoria
   nomes_categorias.forEach((nomecategoriaReturn) => {
+    // 3. Cria o elemento de botão na memória
     const botao = document.createElement('button');
-    botao.type = 'button'; // 'button' é mais indicado do que 'submit' se não estiver dentro de um <form>
-    botao.textContent = nomecategoriaReturn;
     
+    // 4. Configura as propriedades do botão
+    botao.type = 'submit';
+    botao.textContent = nomecategoriaReturn; // Injeta apenas o nome atual com segurança
+    
+    // 5. Adiciona o botão diretamente dentro da sidebar
     sidebar.appendChild(botao);
   });
 }
 
-// 6. Lógica do Menu Lateral
-const sidebar = document.getElementById('sidebarMenu');
-if (sidebar) {
-  sidebar.classList.add('off');
-}
+// Chama a função para testar
 
-async function CategoriaMenu(categoria) {
+//logica de abrir e fechar menu lateral
+const sidebar = document.getElementById('sidebarMenu');
+  sidebar.classList.add('off');
+// Função para abrir o menu (chame esta função no evento onclick do botão no rodapé)
+function CategoriaMenu(categoria) {
   if (categoria === 'classes') {
-    await categoriasDB('classes');
-  } else if (categoria === 'interesses') {
-    await categoriasDB('interesses');
-  } else if (categoria === 'mais') {
-    await categoriasDB('mais');
+    let categoriasBuscadas = 'classes';
+    let categoriaList = 
+    categoriasDB(categoriasBuscadas);
+  }
+  if (categoria === 'interesses') {
+    let categoriasBuscadas = 'interesses';
+    categoriasDB(categoriasBuscadas);
+}
+  if (categoria === 'mais') {
+    let categoriasBuscadas = 'mais';
+    categoriasDB(categoriasBuscadas);
   }
 }
-
 function openMenu() {
-  if (sidebar) sidebar.classList.add('active');
+  sidebar.classList.add('active');
 }
 
+// Função para fechar o menu
 function closeMenu() {
-  if (sidebar) sidebar.classList.remove('active');
+  sidebar.classList.remove('active');
 }
 
-// 7. Eventos de Touch (Swipe para fechar o menu)
 let xInicial = 0;
 let yInicial = 0;
-const limiteMinimo = 50;
+const limiteMinimo = 50; // Distância mínima em pixels para considerar um swipe
 
 document.addEventListener('touchstart', (e) => {
-  xInicial = e.touches[0].clientX;
-  yInicial = e.touches[0].clientY;
+    xInicial = e.touches[0].clientX;
+    yInicial = e.touches[0].clientY;
 }, false);
 
 document.addEventListener('touchend', (e) => {
-  if (!xInicial || !yInicial) return;
+    if (!xInicial || !yInicial) return;
 
-  let xFinal = e.changedTouches[0].clientX;
-  let yFinal = e.changedTouches[0].clientY;
+    let xFinal = e.changedTouches[0].clientX;
+    let yFinal = e.changedTouches[0].clientY;
 
-  let diferencaX = xInicial - xFinal;
-  let diferencaY = yInicial - yFinal;
+    let diferencaX = xInicial - xFinal;
+    let diferencaY = yInicial - yFinal;
 
-  if (Math.abs(diferencaX) > Math.abs(diferencaY)) {
-    if (diferencaX > limiteMinimo) {
-      closeMenu();
+    // Confere se o movimento horizontal foi maior que o vertical
+    if (Math.abs(diferencaX) > Math.abs(diferencaY)) {
+        if (diferencaX > limiteMinimo) {
+            closeMenu()
+            // Coloque sua ação aqui
+        }
     }
-  }
 
-  xInicial = 0;
-  yInicial = 0;
+    xInicial = 0;
+    yInicial = 0;
 }, false);
