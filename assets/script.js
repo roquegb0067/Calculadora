@@ -85,11 +85,6 @@ const rodape_ia = `
     </button>
   </div>
 `
-let usable = document.getElementById('usable')
-function rodape_pages_ia() {
-usable.innerHTML += rodape_ia;
-usable.classList.add('active');
-}
 
 let visorRodape = document.getElementById('visorRodape');
 
